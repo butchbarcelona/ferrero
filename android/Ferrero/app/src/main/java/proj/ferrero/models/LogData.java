@@ -1,46 +1,20 @@
 package proj.ferrero.models;
 
-import java.sql.Date;
-
 /**
  * Created by mbarcelona on 1/14/16.
  */
 public class LogData {
 
-  public enum LogType{
-    USE,
-    LOAD
-  }
+  private String userId, stationStart, stationEnd;
+  private long timeIn, timeOut, duration;
+  private int fare;
 
 
-  private Date dateTime;
-  private String description;
-  private String userId;
-  private LogType logType;
 
-
-  public LogData(LogType logType, String userId, String description, Date dateTime){
-    this.logType = logType;
+  public LogData(String userId, long timeIn, String stationStart){
     this.userId = userId;
-    this.description = description;
-    this.dateTime = dateTime;
-  }
-
-
-  public Date getDateTime() {
-    return dateTime;
-  }
-
-  public void setDateTime(Date dateTime) {
-    this.dateTime = dateTime;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
+    this.timeIn = timeIn;
+    this.stationStart = stationStart;
   }
 
   public String getUserId() {
@@ -51,11 +25,51 @@ public class LogData {
     this.userId = userId;
   }
 
-  public LogType getLogType() {
-    return logType;
+  public String getStationStart() {
+    return stationStart;
   }
 
-  public void setLogType(LogType logType) {
-    this.logType = logType;
+  public void setStationStart(String stationStart) {
+    this.stationStart = stationStart;
+  }
+
+  public String getStationEnd() {
+    return stationEnd;
+  }
+
+  public void setStationEnd(String stationEnd) {
+    this.stationEnd = stationEnd;
+  }
+
+  public long getTimeIn() {
+    return timeIn;
+  }
+
+  public void setTimeIn(long timeIn) {
+    this.timeIn = timeIn;
+  }
+
+  public long getTimeOut() {
+    return timeOut;
+  }
+
+  public void setTimeOut(long timeOut) {
+    this.timeOut = timeOut;
+  }
+
+  public long getDuration() {
+    return duration;
+  }
+
+  public void setDuration(long duration) {
+    this.duration = duration;
+  }
+
+  public int getFare() {
+    return fare;
+  }
+
+  public void setFare(int fare) {
+    this.fare = fare;
   }
 }

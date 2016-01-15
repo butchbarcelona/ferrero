@@ -15,15 +15,20 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
   public static final String TABLE_LOGS = "logs";
   public static final String COLUMN_LOGS_ID = "_id";
-  public static final String COLUMN_LOGS_DESCRIPTION = "desc";
-  public static final String COLUMN_LOGS_DATE = "datetime";
   public static final String COLUMN_LOGS_USER = "user";
-  public static final String COLUMN_LOGS_TYPE = "type";
+  public static final String COLUMN_LOGS_TIMEIN = "time_in";
+  public static final String COLUMN_LOGS_TIMEOUT = "time_out";
+  public static final String COLUMN_LOGS_START = "station_start";
+  public static final String COLUMN_LOGS_END = "station_end";
+  public static final String COLUMN_LOGS_DURATION = "duration";
+  public static final String COLUMN_LOGS_FARE = "fare";
+
 
   public static final String TABLE_USERS = "users";
   public static final String COLUMN_USERS_ID = "_id";
   public static final String COLUMN_USERS_NAME = "name";
   public static final String COLUMN_USERS_LOAD = "load";
+  public static final String COLUMN_USERS_STATUS = "status";
 
 
   private static final String DATABASE_NAME = "main.db";
@@ -33,15 +38,18 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
   private static final String DATABASE_CREATE_LOGS = "create table "
     + TABLE_LOGS + "(" + COLUMN_LOGS_ID
     + " integer primary key autoincrement, "
-    + COLUMN_LOGS_DESCRIPTION + " text not null"
-    + COLUMN_LOGS_DATE + " date not null"
-    + COLUMN_LOGS_USER + " text not null"
-    + COLUMN_LOGS_TYPE + " text not null); ";
+    + COLUMN_LOGS_USER + " text not null "
+    + COLUMN_LOGS_TIMEIN + " long not null "
+    + COLUMN_LOGS_TIMEOUT + " long not null "
+    + COLUMN_LOGS_START + " text not null "
+    + COLUMN_LOGS_END + " text not null "
+    + COLUMN_LOGS_DURATION + "long not null"
+    + COLUMN_LOGS_FARE + " int not null); ";
 
   private static final String DATABASE_CREATE_USERS = "create table "
     + TABLE_USERS + "(" + COLUMN_USERS_ID
-    + " integer primary key autoincrement, "
-    + COLUMN_LOGS_DESCRIPTION + " text not null"
+    + " integer primary key, "
+    + COLUMN_USERS_STATUS + " text not null"
     + COLUMN_USERS_NAME + " text not null"
     + COLUMN_USERS_LOAD + " integer not null);";
 
@@ -73,10 +81,12 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     SQLiteDatabase db = this.getWritableDatabase();
 
     ContentValues values = new ContentValues();
-    values.put(COLUMN_LOGS_DATE, log.getDateTime().toString());
-    values.put(COLUMN_LOGS_DESCRIPTION, log.getDescription());
-    values.put(COLUMN_LOGS_TYPE, log.getLogType().toString());
-    values.put(COLUMN_LOGS_USER, log.getUserId());
+    values.put(COLUMN_LOGS_TIMEIN, log.getTimeIn());
+    values.put(COLUMN_LOGS_TIMEOUT, log.getTimeOut());
+    values.put(COLUMN_LOGS_START, log.getStationStart());
+    values.put(COLUMN_LOGS_END, log.getStationEnd());
+    values.put(COLUMN_LOGS_DURATION, log.getDuration());
+    values.put(COLUMN_LOGS_FARE, log.getFare());
 
     // insert row
     long todo_id = db.insert(TABLE_LOGS, null, values);
