@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import proj.ferrero.models.LogData;
+
 /**
  * Created by mbarcelona on 1/14/16.
  */
@@ -67,22 +69,22 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
   /*
  * Creating a log
  */
-  public long createLog(Log log) {
+  public long createLog(LogData log) {
     SQLiteDatabase db = this.getWritableDatabase();
 
     ContentValues values = new ContentValues();
-    values.put(COLUMN_LOGS_DATE, );
-    values.put(COLUMN_LOGS_DESCRIPTION, todo.getStatus());
-    values.put(COLUMN_LOGS_TYPE, getDateTime());
-    values.put(COLUMN_LOGS_USER, getDateTime());
+    values.put(COLUMN_LOGS_DATE, log.getDateTime().toString());
+    values.put(COLUMN_LOGS_DESCRIPTION, log.getDescription());
+    values.put(COLUMN_LOGS_TYPE, log.getLogType().toString());
+    values.put(COLUMN_LOGS_USER, log.getUserId());
 
     // insert row
-    long todo_id = db.insert(TABLE_TODO, null, values);
+    long todo_id = db.insert(TABLE_LOGS, null, values);
 
-    // assigning tags to todo
+    /*// assigning tags to todo
     for (long tag_id : tag_ids) {
       createTodoTag(todo_id, tag_id);
-    }
+    }*/
 
     return todo_id;
   }

@@ -5,7 +5,7 @@ import java.sql.Date;
 /**
  * Created by mbarcelona on 1/14/16.
  */
-public class Log {
+public class LogData {
 
   public enum LogType{
     USE,
@@ -19,7 +19,7 @@ public class Log {
   private LogType logType;
 
 
-  public Log(LogType logType, String userId, String description, Date dateTime){
+  public LogData(LogType logType, String userId, String description, Date dateTime){
     this.logType = logType;
     this.userId = userId;
     this.description = description;
