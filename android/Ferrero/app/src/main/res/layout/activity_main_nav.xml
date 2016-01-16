@@ -6,9 +6,31 @@
 
     <!-- As the main content view, the view below consumes the entire
          space available using match_parent in both dimensions. -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <FrameLayout android:id="@+id/container" android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" ></FrameLayout>
 
+
+    <ImageButton
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:text="CONNECT"
+        android:background="@drawable/btn_fab_gray"
+        android:id="@+id/connect"
+        android:layout_gravity="right|bottom"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:src="@drawable/ic_bluetooth_connected_white"
+        android:baselineAlignBottom="true"
+        android:contextClickable="true" />
+
+    </FrameLayout>
     <!-- android:layout_gravity="start" tells DrawerLayout to treat
          this as a sliding drawer on the left side for left-to-right
          languages and on the right side for right-to-left languages.

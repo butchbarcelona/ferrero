@@ -1,6 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp">
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="3:21"
+            android:id="@+id/tvTimeIn"
+            android:layout_gravity="center_horizontal" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Station A"
+            android:id="@+id/tvStationStart"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="bottom">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:30"
+            android:id="@+id/tvDuration"
+            android:layout_gravity="center_horizontal" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="P20"
+            android:id="@+id/tvFare"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="4:21"
+            android:id="@+id/tvTimeOut"
+            android:layout_gravity="center_horizontal" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Station B"
+            android:id="@+id/tvStationEnd"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
 </LinearLayout>

@@ -54,7 +54,7 @@ public class BluetoothLeService extends Service {
     public int mConnectionState = STATE_DISCONNECTED;
 
 
-    //To tell the onCharacteristicWrite call back function that this is a new characteristic,
+    //To tell the onCharacteristicWrite call back function that this is a new characteristic, 
     //not the Write Characteristic to the device successfully.
     private static final int WRITE_NEW_CHARACTERISTIC = -1;
     //define the limited length of the characteristic.
@@ -466,8 +466,8 @@ public class BluetoothLeService extends Service {
 
 
     /**
-     * Write information to the device on a given {@code BluetoothGattCharacteristic}. The content string and characteristic is
-     * only pushed into a ring buffer. All the transmission is based on the {@code onCharacteristicWrite} call back function,
+     * Write information to the device on a given {@code BluetoothGattCharacteristic}. The content string and characteristic is 
+     * only pushed into a ring buffer. All the transmission is based on the {@code onCharacteristicWrite} call back function, 
      * which is called directly in this function
      *
      * @param characteristic The characteristic to write to.

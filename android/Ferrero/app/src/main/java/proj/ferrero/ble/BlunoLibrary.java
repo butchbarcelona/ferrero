@@ -32,7 +32,6 @@ import java.util.List;
 
 import proj.ferrero.R;
 
-
 public abstract  class BlunoLibrary  extends AppCompatActivity{
 
     private Context mainContext=this;
@@ -168,13 +167,13 @@ public abstract  class BlunoLibrary  extends AppCompatActivity{
                         }
                     }
                 })
-                .setOnCancelListener(new DialogInterface.OnCancelListener(){
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
 
                     @Override
                     public void onCancel(DialogInterface arg0) {
                         System.out.println("mBluetoothAdapter.stopLeScan");
 
-                        mConnectionState=connectionStateEnum.isToScan;
+                        mConnectionState = connectionStateEnum.isToScan;
                         onConectionStateChange(mConnectionState);
                         mScanDeviceDialog.dismiss();
 
@@ -342,7 +341,7 @@ public abstract  class BlunoLibrary  extends AppCompatActivity{
         }
     };
 
-    void buttonScanOnClickProcess()
+    protected void buttonScanOnClickProcess()
     {
         switch (mConnectionState) {
             case isNull:

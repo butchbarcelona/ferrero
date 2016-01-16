@@ -17,16 +17,18 @@
         android:theme="@style/AppTheme" >
         <activity android:name=".MainActivity" >
 
+        </activity>
+        <activity
+            android:name=".MainNavActivity"
+            android:label="@string/title_activity_main_nav" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainNavActivity"
-            android:label="@string/title_activity_main_nav" >
-        </activity>
+
+        <service android:name="proj.ferrero.ble.BluetoothLeService" android:enabled="true"/>
     </application>
 
 </manifest>

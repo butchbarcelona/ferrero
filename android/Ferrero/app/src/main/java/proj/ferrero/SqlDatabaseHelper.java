@@ -8,9 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import proj.ferrero.models.LogData;
+import proj.ferrero.models.User;
 
 /**
  * Created by mbarcelona on 1/14/16.
@@ -47,7 +47,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     + COLUMN_LOGS_TIMEOUT + " long, "
     + COLUMN_LOGS_START + " text not null, "
     + COLUMN_LOGS_END + " text, "
-    + COLUMN_LOGS_DURATION + "long,"
+    + COLUMN_LOGS_DURATION + " int,"
     + COLUMN_LOGS_FARE + " int); ";
 
   private static final String DATABASE_CREATE_USERS = "create table "
@@ -82,6 +82,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     SQLiteDatabase db = this.getWritableDatabase();
 
     ContentValues values = new ContentValues();
+    values.put(COLUMN_LOGS_USER, log.getUserId());
     values.put(COLUMN_LOGS_TIMEIN, log.getTimeIn());
     values.put(COLUMN_LOGS_TIMEOUT, log.getTimeOut());
     values.put(COLUMN_LOGS_START, log.getStationStart());
@@ -100,6 +101,8 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     return todo_id;
   }
 
+
+
   public long updateLogExit(LogData log){
 
     SQLiteDatabase db = this.getWritableDatabase();
@@ -115,8 +118,8 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
       new String[] { String.valueOf(log.getId()) });
   }
 
-  public List<LogData> getAllLogs() {
-    List<LogData> logs = new ArrayList<LogData>();
+  public ArrayList<LogData> getAllLogs() {
+    ArrayList<LogData> logs = new ArrayList<LogData>();
     String selectQuery = "SELECT  * FROM " + TABLE_LOGS;
 
     SQLiteDatabase db = this.getReadableDatabase();
@@ -140,8 +143,8 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     return logs;
   }
 
-  public List<LogData> getAllLogsOfUser(String userId) {
-    List<LogData> logs = new ArrayList<LogData>();
+  public ArrayList<LogData> getAllLogsOfUser(String userId) {
+    ArrayList<LogData> logs = new ArrayList<LogData>();
     String selectQuery = "SELECT  * FROM " + TABLE_LOGS
       + " WHERE " + COLUMN_LOGS_USER + " = " + userId;
 
@@ -166,10 +169,10 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     return logs;
   }
 
-  public List<LogData> getAllLogsOfUserWithoutTimeout(String userId) {
-    List<LogData> logs = new ArrayList<LogData>();
+  public ArrayList<LogData> getAllLogsOfUserWithoutTimeout(String userId) {
+    ArrayList<LogData> logs = new ArrayList<LogData>();
     String selectQuery = "SELECT  * FROM " + TABLE_LOGS
-      + " WHERE " + COLUMN_LOGS_USER + " = " + userId
+      + " WHERE " + COLUMN_LOGS_USER + " = '" + userId+"'"
       + " AND " + COLUMN_LOGS_END + " IS NULL";
 
     SQLiteDatabase db = this.getReadableDatabase();
@@ -191,5 +194,39 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
       } while (c.moveToNext());
     }
     return logs;
+  }
+
+
+  public long createUser(User user) {
+    SQLiteDatabase db = this.getWritableDatabase();
+
+    ContentValues values = new ContentValues();
+    values.put(COLUMN_USERS_ID, user.getUserId());
+    values.put(COLUMN_USERS_NAME, user.getUserName());
+    values.put(COLUMN_USERS_LOAD, user.getLoad());
+    values.put(COLUMN_USERS_STATUS, user.getStatus().getString());
+
+    // insert row
+    long user_id = db.insert(TABLE_USERS, null, values);
+
+
+    return user_id;
+  }
+
+  public User getUser(String userId) {
+    User user = null;
+    String selectQuery = "SELECT  * FROM " + TABLE_USERS
+            + " WHERE " + COLUMN_USERS_ID + " = '" + userId+"'";
+
+    SQLiteDatabase db = this.getReadableDatabase();
+    Cursor c = db.rawQuery(selectQuery, null);
+
+    // looping through all rows and adding to list
+    if (c.moveToFirst()) {
+      user = new User((c.getString(c.getColumnIndex(COLUMN_USERS_ID))),
+              (c.getString(c.getColumnIndex(COLUMN_USERS_NAME))),
+              (c.getInt(c.getColumnIndex(COLUMN_USERS_LOAD))));
+    }
+    return user;
   }
 }

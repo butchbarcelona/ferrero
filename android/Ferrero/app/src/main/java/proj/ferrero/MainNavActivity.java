@@ -1,22 +1,26 @@
 package proj.ferrero;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageButton;
+
+import java.util.ArrayList;
 
 import proj.ferrero.ble.BlunoLibrary;
+import proj.ferrero.models.LogData;
+import proj.ferrero.models.User;
 
 public class MainNavActivity extends BlunoLibrary
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
+    private static final String TAG = "FERRERO";
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -27,10 +31,21 @@ public class MainNavActivity extends BlunoLibrary
      */
     private CharSequence mTitle;
 
+
+    ImageButton btnScan;
+
+    LogsFragment logsFragment;
+    ArrayList<LogData> logs;
+
+    SqlDatabaseHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_nav);
+
+        onCreateProcess();
+        serialBegin(115200);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -40,14 +55,60 @@ public class MainNavActivity extends BlunoLibrary
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        btnScan = (ImageButton) this.findViewById(R.id.connect);
+        btnScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                buttonScanOnClickProcess();
+            }
+        });
+        dbHelper = new SqlDatabaseHelper(this);
+
+        //tempdata
+        logs = new ArrayList<LogData>();
+        logs.add(new LogData(1,"EFAWF12312", 1452918693, "Station B"));
+        logs.add(new LogData(1,"EFAWF12312", 1452918693, "Station A",1452928693, "Station B", 10,20 ));
+        logs.add(new LogData(1,"EFAWF12312", 1452918693, "Station C",1452928693, "Station B", 10,20 ));
+        logs.add(new LogData(1,"EFAWF12312", 1452918693, "Station A", 1452928693, "Station B", 10, 20));
+
+        ArrayList<User> users = new ArrayList<User>();
+        users.add(new User("EFAWF12312","Tons",100));
+
+        //add temp data to db
+        for(LogData log: logs){
+            dbHelper.createLog(log);
+        }
+
+        for(User user: users){
+            dbHelper.createUser(user);
+        }
+
+
+
+        logs = dbHelper.getAllLogs();
+
+
+
+        if(logsFragment != null) {
+            logsFragment.setData(logs);
+        }
     }
+
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
+
+        if(logsFragment == null){
+            logsFragment = new LogsFragment();
+            logsFragment.setData(logs);
+        }
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.container,logsFragment)
                 .commit();
     }
 
@@ -102,53 +163,110 @@ public class MainNavActivity extends BlunoLibrary
     }
 
     @Override
-    public void onConectionStateChange(connectionStateEnum theconnectionStateEnum) {
+    public void onConectionStateChange(BlunoLibrary.connectionStateEnum theConnectionState) {//Once connection state changes, this function will be called
+        switch (theConnectionState) {											//Four connection state
+            case isConnected:
+                btnScan.setBackgroundResource(R.drawable.btn_fab);
+                //btnScan.setText("Connected");
+                break;
+            case isConnecting:
+                btnScan.setBackgroundResource(R.drawable.btn_fab_light_green);
+                //btnScan.setText("Connecting");
+                break;
+            case isToScan:
+                btnScan.setBackgroundResource(R.drawable.btn_fab_gray);
+                //btnScan.setText("Scan");
+                break;
+            case isScanning:
+                btnScan.setBackgroundResource(R.drawable.btn_fab_light_green);
+                //btnScan.setText("Scanning");
+                break;
+            case isDisconnecting:
+                btnScan.setBackgroundResource(R.drawable.btn_fab_gray);
+                //btnScan.setText("isDisconnecting");
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onSerialReceived(String idTag) {
+
+        Log.e("onMessageReceive", idTag);
+        idTag = idTag.replaceAll("(\\r|\\n)", "");
+
+        //EFAWF12312
+
+        try {
+            checkUserTag(idTag.split(":")[1], idTag.split(":")[0]);
+        }catch(Exception e){
+
+        }
+
+    }
+
+
+    public boolean checkUserTag(String userId, String tappedAt){
+        ArrayList<LogData> userLogs = dbHelper.getAllLogsOfUserWithoutTimeout(userId);
+        User user = dbHelper.getUser(userId);
+
+
+        if(user != null) {
+            if (userLogs.size() > 0) {
+                //exit state
+                Log.e(MainNavActivity.TAG,"exit state");
+
+                user.setLoad(user.getLoad());
+
+
+            } else {
+                //entrance state
+                Log.e(MainNavActivity.TAG,"enter state");
+
+                if (user.getLoad() >= 30) {
+                    return false;
+                }
+
+                dbHelper.createLog(new LogData(0, userId, System.currentTimeMillis(), tappedAt));
+            }
+        }else{
+            //TODO: if user is not in database
+            Log.e(MainNavActivity.TAG,"no user in db "+userId);
+        }
+
+        return true;
 
     }
 
     @Override
-    public void onSerialReceived(String theString) {
-
+    protected void onPause() {
+        super.onPause();
+        onPauseProcess();														//onPause Process by BlunoLibrary
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main_nav, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((MainNavActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
+    protected void onStop() {
+        super.onStop();
+        onStopProcess();														//onStop Process by BlunoLibrary
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        onDestroyProcess();														//onDestroy Process by BlunoLibrary
+    }
+
+    protected void onResume(){
+        super.onResume();
+        System.out.println("BlUNOActivity onResume");
+        onResumeProcess();														//onResume Process by BlunoLibrary
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        onActivityResultProcess(requestCode, resultCode, data);					//onActivityResult Process by BlunoLibrary
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 
 }
