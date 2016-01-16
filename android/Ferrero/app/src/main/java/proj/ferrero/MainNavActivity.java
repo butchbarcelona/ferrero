@@ -70,6 +70,7 @@ public class MainNavActivity extends BlunoLibrary
         //tempdata
         logs = new ArrayList<LogData>();
         logs.add(new LogData(1,"EFAWF12312", 1452918693, "Station B"));
+        logs.add(new LogData(2,"EFAWF12312", 1452918693, "Station A", 1452918693, "Station B",12323,30));
 
         ArrayList<User> users = new ArrayList<User>();
         users.add(new User("EFAWF12312","Tons",1000));

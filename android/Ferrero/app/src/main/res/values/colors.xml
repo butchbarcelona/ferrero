@@ -8,4 +8,9 @@
     <color name="green_light">#85D6DB</color>
     <color name="green">#41CCD4</color>
     <color name="green_dark">#319BA1</color>
+
+    <color name="red">#EA2E49</color>
+    <color name="blue">#77C4D3</color>
+    <color name="blue_dark">#333745</color>
+
 </resources>

@@ -4,21 +4,30 @@
     android:layout_height="wrap_content"
     android:padding="20dp">
     <LinearLayout
-        android:orientation="vertical" android:layout_width="0dp"
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+    android:layout_height="80dp"
+    android:layout_width="80dp"
+        android:background="@drawable/red_circle"
+        android:id="@+id/ll_in">
+        <!--android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"-->
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="3:21"
+            android:text="03:21"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
             android:id="@+id/tvTimeIn"
             android:layout_gravity="center_horizontal" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Station A"
+            android:textColor="@android:color/white"
             android:id="@+id/tvStationStart"
             android:layout_gravity="center_horizontal" />
     </LinearLayout>
@@ -32,27 +41,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvDuration"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
             android:layout_gravity="center_horizontal" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
             android:id="@+id/tvFare"
             android:layout_gravity="center_horizontal" />
     </LinearLayout>
     <LinearLayout
-        android:orientation="vertical" android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        android:layout_height="80dp"
+        android:layout_width="80dp"
+        android:id="@+id/ll_out">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/tvTimeOut"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
             android:layout_gravity="center_horizontal" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
             android:id="@+id/tvStationEnd"
             android:layout_gravity="center_horizontal" />
     </LinearLayout>

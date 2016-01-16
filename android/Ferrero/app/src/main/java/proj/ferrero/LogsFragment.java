@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -85,6 +86,8 @@ public class LogsFragment extends Fragment {
             tvStart = (TextView) view.findViewById(R.id.tvStationStart);
             tvEnd = (TextView) view.findViewById(R.id.tvStationEnd);
 
+            LinearLayout llStart = (LinearLayout) view.findViewById(R.id.ll_in);
+            LinearLayout llEnd = (LinearLayout) view.findViewById(R.id.ll_out);
 
             if(logs.get(position).getStationEnd() == null || logs.get(position).getStationEnd().isEmpty()){
 
@@ -92,6 +95,8 @@ public class LogsFragment extends Fragment {
                 tvTimeOut.setText("--:--:--");
             } else {
 
+                llStart.setBackgroundResource(R.drawable.blue_circle);
+                llEnd.setBackgroundResource(R.drawable.blue_circle);
                 tvEnd.setText(logs.get(position).getStationEnd()+"");
                 tvTimeOut.setText(Util.epochToStringFormat(logs.get(position).getTimeOut(),"hh:mm"));
 
@@ -104,9 +109,6 @@ public class LogsFragment extends Fragment {
 
             tvStart.setText(logs.get(position).getStationStart()+"");
             tvTimeIn.setText(Util.epochToStringFormat(logs.get(position).getTimeIn(),"hh:mm"));
-
-
-
 
             return view;
         }
