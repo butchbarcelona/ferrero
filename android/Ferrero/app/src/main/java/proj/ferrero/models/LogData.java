@@ -9,12 +9,36 @@ public class LogData {
   private long timeIn, timeOut, duration;
   private int fare;
 
+  private int id;
 
-
-  public LogData(String userId, long timeIn, String stationStart){
+  public LogData(int id, String userId, long timeIn, String stationStart, long timeOut
+    , String stationEnd, int duration, int fare ){
+    this.id = id;
     this.userId = userId;
     this.timeIn = timeIn;
     this.stationStart = stationStart;
+
+    this.timeOut = timeOut;
+    this.stationEnd = stationEnd;
+    this.duration = duration;
+    this.fare = fare;
+  }
+
+
+  public LogData(int id, String userId, long timeIn, String stationStart){
+    this.id = id;
+    this.userId = userId;
+    this.timeIn = timeIn;
+    this.stationStart = stationStart;
+  }
+
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 
   public String getUserId() {

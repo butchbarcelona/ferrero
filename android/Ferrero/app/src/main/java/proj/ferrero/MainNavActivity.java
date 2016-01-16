@@ -6,14 +6,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class MainNavActivity extends AppCompatActivity
+import proj.ferrero.ble.BlunoLibrary;
+
+public class MainNavActivity extends BlunoLibrary
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
@@ -98,6 +99,16 @@ public class MainNavActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onConectionStateChange(connectionStateEnum theconnectionStateEnum) {
+
+    }
+
+    @Override
+    public void onSerialReceived(String theString) {
+
     }
 
     /**

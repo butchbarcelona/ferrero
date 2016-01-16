@@ -2,9 +2,13 @@ package proj.ferrero;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import proj.ferrero.models.LogData;
 
@@ -37,20 +41,20 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
   // Database creation sql statement
   private static final String DATABASE_CREATE_LOGS = "create table "
     + TABLE_LOGS + "(" + COLUMN_LOGS_ID
-    + " integer primary key autoincrement, "
-    + COLUMN_LOGS_USER + " text not null "
-    + COLUMN_LOGS_TIMEIN + " long not null "
-    + COLUMN_LOGS_TIMEOUT + " long not null "
-    + COLUMN_LOGS_START + " text not null "
-    + COLUMN_LOGS_END + " text not null "
-    + COLUMN_LOGS_DURATION + "long not null"
-    + COLUMN_LOGS_FARE + " int not null); ";
+    + " integer primary key, "
+    + COLUMN_LOGS_USER + " text not null, "
+    + COLUMN_LOGS_TIMEIN + " long not null, "
+    + COLUMN_LOGS_TIMEOUT + " long, "
+    + COLUMN_LOGS_START + " text not null, "
+    + COLUMN_LOGS_END + " text, "
+    + COLUMN_LOGS_DURATION + "long,"
+    + COLUMN_LOGS_FARE + " int); ";
 
   private static final String DATABASE_CREATE_USERS = "create table "
     + TABLE_USERS + "(" + COLUMN_USERS_ID
     + " integer primary key, "
-    + COLUMN_USERS_STATUS + " text not null"
-    + COLUMN_USERS_NAME + " text not null"
+    + COLUMN_USERS_STATUS + " text not null,"
+    + COLUMN_USERS_NAME + " text not null,"
     + COLUMN_USERS_LOAD + " integer not null);";
 
   public SqlDatabaseHelper(Context context) {
@@ -74,9 +78,6 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     onCreate(db);
   }
 
-  /*
- * Creating a log
- */
   public long createLog(LogData log) {
     SQLiteDatabase db = this.getWritableDatabase();
 
@@ -99,6 +100,96 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     return todo_id;
   }
 
+  public long updateLogExit(LogData log){
 
+    SQLiteDatabase db = this.getWritableDatabase();
 
+    ContentValues values = new ContentValues();
+    values.put(COLUMN_LOGS_TIMEOUT, log.getTimeOut());
+    values.put(COLUMN_LOGS_END, log.getStationEnd());
+    values.put(COLUMN_LOGS_DURATION, log.getDuration());
+    values.put(COLUMN_LOGS_FARE, log.getFare());
+
+    // updating row
+    return db.update(TABLE_LOGS, values, COLUMN_LOGS_ID + " = ?",
+      new String[] { String.valueOf(log.getId()) });
+  }
+
+  public List<LogData> getAllLogs() {
+    List<LogData> logs = new ArrayList<LogData>();
+    String selectQuery = "SELECT  * FROM " + TABLE_LOGS;
+
+    SQLiteDatabase db = this.getReadableDatabase();
+    Cursor c = db.rawQuery(selectQuery, null);
+
+    // looping through all rows and adding to list
+    if (c.moveToFirst()) {
+      do {
+        LogData td = new LogData((c.getInt(c.getColumnIndex(COLUMN_LOGS_ID)))
+          ,(c.getString(c.getColumnIndex(COLUMN_LOGS_USER)))
+          ,(c.getLong(c.getColumnIndex(COLUMN_LOGS_TIMEIN)))
+          ,(c.getString(c.getColumnIndex(COLUMN_LOGS_START)))
+          ,(c.getLong(c.getColumnIndex(COLUMN_LOGS_TIMEOUT)))
+          ,(c.getString(c.getColumnIndex(COLUMN_LOGS_END)))
+          ,(c.getInt(c.getColumnIndex(COLUMN_LOGS_DURATION)))
+          ,(c.getInt(c.getColumnIndex(COLUMN_LOGS_FARE))));
+
+        logs.add(td);
+      } while (c.moveToNext());
+    }
+    return logs;
+  }
+
+  public List<LogData> getAllLogsOfUser(String userId) {
+    List<LogData> logs = new ArrayList<LogData>();
+    String selectQuery = "SELECT  * FROM " + TABLE_LOGS
+      + " WHERE " + COLUMN_LOGS_USER + " = " + userId;
+
+    SQLiteDatabase db = this.getReadableDatabase();
+    Cursor c = db.rawQuery(selectQuery, null);
+
+    // looping through all rows and adding to list
+    if (c.moveToFirst()) {
+      do {
+        LogData td = new LogData((c.getInt(c.getColumnIndex(COLUMN_LOGS_ID)))
+          ,(c.getString(c.getColumnIndex(COLUMN_LOGS_USER)))
+          ,(c.getLong(c.getColumnIndex(COLUMN_LOGS_TIMEIN)))
+          ,(c.getString(c.getColumnIndex(COLUMN_LOGS_START)))
+          ,(c.getLong(c.getColumnIndex(COLUMN_LOGS_TIMEOUT)))
+          ,(c.getString(c.getColumnIndex(COLUMN_LOGS_END)))
+          ,(c.getInt(c.getColumnIndex(COLUMN_LOGS_DURATION)))
+          ,(c.getInt(c.getColumnIndex(COLUMN_LOGS_FARE))));
+
+        logs.add(td);
+      } while (c.moveToNext());
+    }
+    return logs;
+  }
+
+  public List<LogData> getAllLogsOfUserWithoutTimeout(String userId) {
+    List<LogData> logs = new ArrayList<LogData>();
+    String selectQuery = "SELECT  * FROM " + TABLE_LOGS
+      + " WHERE " + COLUMN_LOGS_USER + " = " + userId
+      + " AND " + COLUMN_LOGS_END + " IS NULL";
+
+    SQLiteDatabase db = this.getReadableDatabase();
+    Cursor c = db.rawQuery(selectQuery, null);
+
+    // looping through all rows and adding to list
+    if (c.moveToFirst()) {
+      do {
+        LogData td = new LogData((c.getInt(c.getColumnIndex(COLUMN_LOGS_ID)))
+          ,(c.getString(c.getColumnIndex(COLUMN_LOGS_USER)))
+          ,(c.getLong(c.getColumnIndex(COLUMN_LOGS_TIMEIN)))
+          ,(c.getString(c.getColumnIndex(COLUMN_LOGS_START)))
+          ,(c.getLong(c.getColumnIndex(COLUMN_LOGS_TIMEOUT)))
+          ,(c.getString(c.getColumnIndex(COLUMN_LOGS_END)))
+          ,(c.getInt(c.getColumnIndex(COLUMN_LOGS_DURATION)))
+          ,(c.getInt(c.getColumnIndex(COLUMN_LOGS_FARE))));
+
+        logs.add(td);
+      } while (c.moveToNext());
+    }
+    return logs;
+  }
 }

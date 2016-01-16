@@ -18,6 +18,7 @@ import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +32,8 @@ import java.util.List;
 
 import proj.ferrero.R;
 
-public abstract  class BlunoLibrary  extends Activity{
+
+public abstract  class BlunoLibrary  extends AppCompatActivity{
 
     private Context mainContext=this;
 
