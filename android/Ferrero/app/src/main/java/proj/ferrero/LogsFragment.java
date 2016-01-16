@@ -86,10 +86,24 @@ public class LogsFragment extends Fragment {
             tvEnd = (TextView) view.findViewById(R.id.tvStationEnd);
 
 
-            tvTimeIn.setText(Util.epochToStringFormat(logs.get(position).getTimeIn(),"hh:mm:ss"));
-            tvTimeOut.setText(Util.epochToStringFormat(logs.get(position).getTimeOut(),"hh:mm:ss"));
+            if(logs.get(position).getStationEnd() == null || logs.get(position).getStationEnd().isEmpty()){
+
+                tvEnd.setText("");
+                tvTimeOut.setText("--:--:--");
+            } else {
+
+                tvEnd.setText(logs.get(position).getStationEnd()+"");
+                tvTimeOut.setText(Util.epochToStringFormat(logs.get(position).getTimeOut(),"hh:mm"));
+
+                TextView tvDuration = (TextView) view.findViewById(R.id.tvDuration);
+                TextView tvFare = (TextView) view.findViewById(R.id.tvFare);
+
+                tvDuration.setText(Util.epochToStringFormat(logs.get(position).getDuration(),"hh:mm "));
+                tvFare.setText("P"+logs.get(position).getFare());
+            }
+
             tvStart.setText(logs.get(position).getStationStart()+"");
-            tvEnd.setText(logs.get(position).getStationEnd()+"");
+            tvTimeIn.setText(Util.epochToStringFormat(logs.get(position).getTimeIn(),"hh:mm"));
 
 
 

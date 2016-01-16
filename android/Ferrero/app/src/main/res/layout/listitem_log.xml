@@ -31,13 +31,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="00:30"
             android:id="@+id/tvDuration"
             android:layout_gravity="center_horizontal" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="P20"
             android:id="@+id/tvFare"
             android:layout_gravity="center_horizontal" />
     </LinearLayout>
@@ -50,13 +48,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="4:21"
             android:id="@+id/tvTimeOut"
             android:layout_gravity="center_horizontal" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Station B"
             android:id="@+id/tvStationEnd"
             android:layout_gravity="center_horizontal" />
     </LinearLayout>

@@ -12,7 +12,7 @@ public class LogData {
   private int id;
 
   public LogData(int id, String userId, long timeIn, String stationStart, long timeOut
-    , String stationEnd, int duration, int fare ){
+    , String stationEnd, long duration, int fare ){
     this.id = id;
     this.userId = userId;
     this.timeIn = timeIn;

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import proj.ferrero.ble.BlunoLibrary;
 import proj.ferrero.models.LogData;
+import proj.ferrero.models.Stations;
 import proj.ferrero.models.User;
 
 public class MainNavActivity extends BlunoLibrary
@@ -69,12 +70,10 @@ public class MainNavActivity extends BlunoLibrary
         //tempdata
         logs = new ArrayList<LogData>();
         logs.add(new LogData(1,"EFAWF12312", 1452918693, "Station B"));
-        logs.add(new LogData(1,"EFAWF12312", 1452918693, "Station A",1452928693, "Station B", 10,20 ));
-        logs.add(new LogData(1,"EFAWF12312", 1452918693, "Station C",1452928693, "Station B", 10,20 ));
-        logs.add(new LogData(1,"EFAWF12312", 1452918693, "Station A", 1452928693, "Station B", 10, 20));
 
         ArrayList<User> users = new ArrayList<User>();
-        users.add(new User("EFAWF12312","Tons",100));
+        users.add(new User("EFAWF12312","Tons",1000));
+
 
         //add temp data to db
         for(LogData log: logs){
@@ -86,14 +85,8 @@ public class MainNavActivity extends BlunoLibrary
         }
 
 
+        refreshData();
 
-        logs = dbHelper.getAllLogs();
-
-
-
-        if(logsFragment != null) {
-            logsFragment.setData(logs);
-        }
     }
 
 
@@ -217,9 +210,23 @@ public class MainNavActivity extends BlunoLibrary
                 //exit state
                 Log.e(MainNavActivity.TAG,"exit state");
 
-                user.setLoad(user.getLoad());
+                LogData currLog = userLogs.get(0);
+                //compute duration
+                long duration = System.currentTimeMillis() - currLog.getTimeIn();
+                currLog.setDuration(duration);
 
+                //compute fare
+                int fare = Math.abs(Stations.getStation(tappedAt).getIndex()
+                        - Stations.getStation(currLog.getStationStart()).getIndex())*10+10;
 
+                currLog.setFare(fare);
+
+                user.setLoad(user.getLoad() - fare);
+
+                dbHelper.updateLogExit(currLog);
+                dbHelper.updateUser(user);
+
+                refreshData();
             } else {
                 //entrance state
                 Log.e(MainNavActivity.TAG,"enter state");
@@ -229,6 +236,7 @@ public class MainNavActivity extends BlunoLibrary
                 }
 
                 dbHelper.createLog(new LogData(0, userId, System.currentTimeMillis(), tappedAt));
+                refreshData();
             }
         }else{
             //TODO: if user is not in database
@@ -269,4 +277,11 @@ public class MainNavActivity extends BlunoLibrary
     }
 
 
+    public void refreshData(){
+        logs = dbHelper.getAllLogs();
+
+        if(logsFragment != null) {
+            logsFragment.setData(logs);
+        }
+    }
 }

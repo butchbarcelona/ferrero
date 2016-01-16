@@ -47,12 +47,12 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     + COLUMN_LOGS_TIMEOUT + " long, "
     + COLUMN_LOGS_START + " text not null, "
     + COLUMN_LOGS_END + " text, "
-    + COLUMN_LOGS_DURATION + " int,"
+    + COLUMN_LOGS_DURATION + " long ,"
     + COLUMN_LOGS_FARE + " int); ";
 
   private static final String DATABASE_CREATE_USERS = "create table "
     + TABLE_USERS + "(" + COLUMN_USERS_ID
-    + " integer primary key, "
+    + " text primary key, "
     + COLUMN_USERS_STATUS + " text not null,"
     + COLUMN_USERS_NAME + " text not null,"
     + COLUMN_USERS_LOAD + " integer not null);";
@@ -228,5 +228,18 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
               (c.getInt(c.getColumnIndex(COLUMN_USERS_LOAD))));
     }
     return user;
+  }
+
+  public long updateUser(User user){
+
+    SQLiteDatabase db = this.getWritableDatabase();
+
+    ContentValues values = new ContentValues();
+    values.put(COLUMN_USERS_LOAD, user.getLoad());
+    values.put(COLUMN_USERS_STATUS, user.getStatus().getString());
+
+    // updating row
+    return db.update(TABLE_USERS, values, COLUMN_USERS_ID + " = ?",
+            new String[] { String.valueOf(user.getUserId()) });
   }
 }

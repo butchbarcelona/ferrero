@@ -16,11 +16,26 @@ public enum Stations {
         this.index = index;
     }
 
-    public String getStation(){
+    public String getString(){
         return station;
     }
 
     public int getIndex() {
         return index;
+    }
+
+    public static Stations getStation(String s){
+
+        switch(s){
+            case "A":case "Station A":case "a":
+                return Stations.A;
+            case "B":case "Station B":case "b":
+                return Stations.A;
+            case "C":case "Station C":case "c":
+                return Stations.A;
+
+        }
+
+        return null;
     }
 }
