@@ -6,7 +6,66 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="proj.ferrero.AddUserActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Name"/>
+        <EditText
+            android:id="@+id/et_tag"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="NFC Tag"/>
+        <EditText
+            android:id="@+id/et_age"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="number"
+            android:hint="Age"/>
+        <EditText
+            android:id="@+id/et_bday"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="date"
+            android:hint="Birthday"/>
+        <EditText
+            android:id="@+id/et_bloodtype"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Bloodtype"/>
+        <EditText
+            android:id="@+id/et_allergies"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Allergies"/>
+        <EditText
+            android:id="@+id/et_med_conditions"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Medical Conditions"/>
+        <EditText
+            android:id="@+id/et_contact_person"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Contact Person"/>
+        <EditText
+            android:id="@+id/et_contact_number"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Contact Number"/>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:id="@+id/btn_save"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
