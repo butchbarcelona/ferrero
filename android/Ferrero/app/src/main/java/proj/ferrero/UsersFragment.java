@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,6 +23,8 @@ public class UsersFragment extends Fragment {
     UserListAdapter adapter;
 
     SqlDatabaseHelper dbHelper;
+
+    ImageButton btnAdd;
 
     public UsersFragment(){
 
@@ -43,8 +46,20 @@ public class UsersFragment extends Fragment {
         lvUsers = (ListView) rootView.findViewById(R.id.lv_users);
         lvUsers.setAdapter(adapter);
 
+        btnAdd = (ImageButton) rootView.findViewById(R.id.btn_add);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
         return rootView;
     }
+
+
+
 
 
     public class UserListAdapter extends BaseAdapter{
@@ -81,7 +96,7 @@ public class UsersFragment extends Fragment {
 
             View view = UsersFragment.this.getActivity().getLayoutInflater().inflate(R.layout.listitem_user, null);
 
-            TextView tvName, tvAge, tvBday, tvBlood, tvAllergies, tvMedCond, tvContactPerson, tvContactNum;
+            TextView tvTag, tvName, tvAge, tvBday, tvBlood, tvAllergies, tvMedCond, tvContactPerson, tvContactNum;
             tvName = (TextView)view.findViewById(R.id.tvName);
             tvAge = (TextView)view.findViewById(R.id.tvAge);
             tvBday = (TextView)view.findViewById(R.id.tvBday);
@@ -90,6 +105,7 @@ public class UsersFragment extends Fragment {
             tvMedCond = (TextView)view.findViewById(R.id.tvMedicalConditions);
             tvContactPerson = (TextView)view.findViewById(R.id.tvContactPerson);
             tvContactNum = (TextView)view.findViewById(R.id.tvContactNumber);
+            tvTag = (TextView)view.findViewById(R.id.tvTag);
 
             tvName.setText(users.get(position).getUserName());
             tvAge.setText(users.get(position).getAge()+"");
@@ -99,6 +115,7 @@ public class UsersFragment extends Fragment {
             tvMedCond.setText(users.get(position).getMedCond());
             tvContactPerson.setText(users.get(position).getContactPerson());
             tvContactNum.setText(users.get(position).getContactNum());
+            tvTag.setText(users.get(position).getUserId());
 
 
             return view;

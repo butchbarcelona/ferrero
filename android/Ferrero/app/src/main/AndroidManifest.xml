@@ -16,7 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity android:name=".MainActivity" >
-
         </activity>
         <activity
             android:name=".MainNavActivity"
@@ -28,7 +27,14 @@
             </intent-filter>
         </activity>
 
-        <service android:name="proj.ferrero.ble.BluetoothLeService" android:enabled="true"/>
+        <service
+            android:name=".ble.BluetoothLeService"
+            android:enabled="true" />
+
+        <activity
+            android:name=".AddUserActivity"
+            android:label="@string/title_activity_add_user" >
+        </activity>
     </application>
 
 </manifest>

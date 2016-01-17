@@ -6,4 +6,20 @@
         android:layout_width="match_parent"
         android:id="@+id/lv_users"/>
 
+    <ImageButton
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/btn_fab_red"
+        android:id="@+id/btn_add"
+        android:layout_gravity="right|bottom"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:src="@android:drawable/ic_input_add"
+        android:baselineAlignBottom="true"
+        android:contextClickable="true" />
+
 </FrameLayout>
