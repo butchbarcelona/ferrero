@@ -5,7 +5,7 @@ package proj.ferrero.models;
  */
 public class LogData {
 
-  private String userId, stationStart, stationEnd;
+  private String userId, stationStart, stationEnd, userName;
   private long timeIn, timeOut, duration;
   private int fare;
 
@@ -32,6 +32,13 @@ public class LogData {
     this.stationStart = stationStart;
   }
 
+  public String getUserName() {
+    return userName;
+  }
+
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
 
   public int getId() {
     return id;

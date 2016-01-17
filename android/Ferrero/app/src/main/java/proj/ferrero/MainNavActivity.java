@@ -2,6 +2,7 @@ package proj.ferrero;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -36,7 +37,9 @@ public class MainNavActivity extends BlunoLibrary
     ImageButton btnScan;
 
     LogsFragment logsFragment;
+    UsersFragment userFragment;
     ArrayList<LogData> logs;
+    ArrayList<User> users;
 
     SqlDatabaseHelper dbHelper;
 
@@ -69,11 +72,13 @@ public class MainNavActivity extends BlunoLibrary
 
         //tempdata
         logs = new ArrayList<LogData>();
-        logs.add(new LogData(1,"EFAWF12312", 1452918693, "Station B"));
-        logs.add(new LogData(2,"EFAWF12312", 1452918693, "Station A", 1452918693, "Station B",12323,30));
+/*        users.add(new LogData(1,"EFAWF12312", 1452918693, "Station B"));
+        users.add(new LogData(2,"EFAWF12312", 1452918693, "Station A", 1452918693, "Station B",12323,30));
+        users.add(new LogData(2,"C4R0L78541", 1452918693, "Station A", 1452918693, "Station B",12323,30));*/
 
-        ArrayList<User> users = new ArrayList<User>();
-        users.add(new User("EFAWF12312","Tons",1000));
+        users = new ArrayList<User>();
+        users.add(new User("EFAWF12312","Tons",1000,1,1,"","","","",""));
+        users.add(new User("C4R0L78541","York",1000,1,1,"","","","",""));
 
 
         //add temp data to db
@@ -100,25 +105,28 @@ public class MainNavActivity extends BlunoLibrary
             logsFragment.setData(logs);
         }
 
+        if(userFragment == null){
+            userFragment = new UsersFragment();
+            userFragment.setData(users);
+        }
+
         FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragToAdd;
+
+        switch (position){
+            case 1: fragToAdd = userFragment;
+                break;
+            case 0:
+            default: fragToAdd = logsFragment;
+                break;
+        }
+
         fragmentManager.beginTransaction()
-                .replace(R.id.container,logsFragment)
+                .replace(R.id.container,fragToAdd)
                 .commit();
     }
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-        }
-    }
+
 
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
@@ -193,7 +201,8 @@ public class MainNavActivity extends BlunoLibrary
         //EFAWF12312
 
         try {
-            checkUserTag(idTag.split(":")[1], idTag.split(":")[0]);
+            checkUserTag(//"EFAWF12312","B");
+            idTag.split(":")[1], idTag.split(":")[0]);
         }catch(Exception e){
 
         }
@@ -209,18 +218,29 @@ public class MainNavActivity extends BlunoLibrary
         if(user != null) {
             if (userLogs.size() > 0) {
                 //exit state
-                Log.e(MainNavActivity.TAG,"exit state");
 
                 LogData currLog = userLogs.get(0);
+
+                if(currLog.getStationStart().equals(tappedAt)){
+                    return false;
+                }
+
                 //compute duration
-                long duration = System.currentTimeMillis() - currLog.getTimeIn();
-                currLog.setDuration(duration);
+
+                Log.e(MainNavActivity.TAG, "exit:" + System.currentTimeMillis());
+                long timeOut = System.currentTimeMillis();
+
+                long duration = timeOut - currLog.getTimeIn(); //Util.getDiffOfTime(timeOut,currLog.getTimeIn());
+                currLog.setDuration(duration);//Long.parseLong(duration));
+                currLog.setTimeOut(timeOut);
+                Log.e(MainNavActivity.TAG, "duration:" + duration);
 
                 //compute fare
                 int fare = Math.abs(Stations.getStation(tappedAt).getIndex()
                         - Stations.getStation(currLog.getStationStart()).getIndex())*10+10;
 
                 currLog.setFare(fare);
+                currLog.setStationEnd(tappedAt);
 
                 user.setLoad(user.getLoad() - fare);
 
@@ -230,12 +250,12 @@ public class MainNavActivity extends BlunoLibrary
                 refreshData();
             } else {
                 //entrance state
-                Log.e(MainNavActivity.TAG,"enter state");
 
-                if (user.getLoad() >= 30) {
+                if (user.getLoad() < 30) {
                     return false;
                 }
 
+                Log.e(MainNavActivity.TAG,"enter: "+System.currentTimeMillis());
                 dbHelper.createLog(new LogData(0, userId, System.currentTimeMillis(), tappedAt));
                 refreshData();
             }
@@ -280,9 +300,13 @@ public class MainNavActivity extends BlunoLibrary
 
     public void refreshData(){
         logs = dbHelper.getAllLogs();
+        users = dbHelper.getAllUsers();
 
         if(logsFragment != null) {
             logsFragment.setData(logs);
+        }
+        if(userFragment != null) {
+            userFragment.setData(users);
         }
     }
 }

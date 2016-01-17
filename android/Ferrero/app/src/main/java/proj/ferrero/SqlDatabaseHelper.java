@@ -33,6 +33,13 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
   public static final String COLUMN_USERS_NAME = "name";
   public static final String COLUMN_USERS_LOAD = "load";
   public static final String COLUMN_USERS_STATUS = "status";
+    public static final String COLUMN_USERS_AGE = "age";
+    public static final String COLUMN_USERS_BDAY = "bday";
+    public static final String COLUMN_USERS_BLOOD = "blood_type";
+    public static final String COLUMN_USERS_ALLERGIES = "allergies";
+    public static final String COLUMN_USERS_MED_CONDITIONS = "med_conditions";
+    public static final String COLUMN_USERS_CONTACT_PERSON = "contact_person";
+    public static final String COLUMN_USERS_CONTACT_NUMBER = "contact_number";
 
 
   private static final String DATABASE_NAME = "main.db";
@@ -55,6 +62,13 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     + " text primary key, "
     + COLUMN_USERS_STATUS + " text not null,"
     + COLUMN_USERS_NAME + " text not null,"
+      + COLUMN_USERS_AGE + " int,"
+      + COLUMN_USERS_BDAY + " long,"
+      + COLUMN_USERS_BLOOD + " text,"
+      + COLUMN_USERS_ALLERGIES + " text,"
+      + COLUMN_USERS_MED_CONDITIONS + " text,"
+      + COLUMN_USERS_CONTACT_PERSON + " text,"
+      + COLUMN_USERS_CONTACT_NUMBER + " text,"
     + COLUMN_USERS_LOAD + " integer not null);";
 
   public SqlDatabaseHelper(Context context) {
@@ -137,6 +151,9 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
           ,(c.getInt(c.getColumnIndex(COLUMN_LOGS_DURATION)))
           ,(c.getInt(c.getColumnIndex(COLUMN_LOGS_FARE))));
 
+
+          td.setUserName(getUser(td.getUserId()).getUserName());
+
         logs.add(td);
       } while (c.moveToNext());
     }
@@ -205,6 +222,13 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     values.put(COLUMN_USERS_NAME, user.getUserName());
     values.put(COLUMN_USERS_LOAD, user.getLoad());
     values.put(COLUMN_USERS_STATUS, user.getStatus().getString());
+      values.put(COLUMN_USERS_AGE, user.getAge());
+      values.put(COLUMN_USERS_BDAY, user.getBday());
+      values.put(COLUMN_USERS_BLOOD, user.getBloodType());
+      values.put(COLUMN_USERS_ALLERGIES, user.getAllergies());
+      values.put(COLUMN_USERS_MED_CONDITIONS, user.getMedCond());
+      values.put(COLUMN_USERS_CONTACT_PERSON, user.getContactPerson());
+      values.put(COLUMN_USERS_CONTACT_NUMBER, user.getContactNum());
 
     // insert row
     long user_id = db.insert(TABLE_USERS, null, values);
@@ -225,10 +249,46 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     if (c.moveToFirst()) {
       user = new User((c.getString(c.getColumnIndex(COLUMN_USERS_ID))),
               (c.getString(c.getColumnIndex(COLUMN_USERS_NAME))),
-              (c.getInt(c.getColumnIndex(COLUMN_USERS_LOAD))));
+              (c.getInt(c.getColumnIndex(COLUMN_USERS_LOAD))),
+              (c.getInt(c.getColumnIndex(COLUMN_USERS_AGE))),
+              (c.getLong(c.getColumnIndex(COLUMN_USERS_BDAY))),
+              (c.getString(c.getColumnIndex(COLUMN_USERS_BLOOD))),
+              (c.getString(c.getColumnIndex(COLUMN_USERS_ALLERGIES))),
+              (c.getString(c.getColumnIndex(COLUMN_USERS_MED_CONDITIONS))),
+              (c.getString(c.getColumnIndex(COLUMN_USERS_CONTACT_PERSON))),
+              (c.getString(c.getColumnIndex(COLUMN_USERS_CONTACT_NUMBER))));
     }
     return user;
   }
+
+
+    public ArrayList<User> getAllUsers() {
+        ArrayList<User> users = new ArrayList<User>();
+        String selectQuery = "SELECT  * FROM " + TABLE_USERS;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        User user;
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+
+                user = new User((c.getString(c.getColumnIndex(COLUMN_USERS_ID))),
+                        (c.getString(c.getColumnIndex(COLUMN_USERS_NAME))),
+                        (c.getInt(c.getColumnIndex(COLUMN_USERS_LOAD))),
+                        (c.getInt(c.getColumnIndex(COLUMN_USERS_AGE))),
+                        (c.getLong(c.getColumnIndex(COLUMN_USERS_BDAY))),
+                        (c.getString(c.getColumnIndex(COLUMN_USERS_BLOOD))),
+                        (c.getString(c.getColumnIndex(COLUMN_USERS_ALLERGIES))),
+                        (c.getString(c.getColumnIndex(COLUMN_USERS_MED_CONDITIONS))),
+                        (c.getString(c.getColumnIndex(COLUMN_USERS_CONTACT_PERSON))),
+                        (c.getString(c.getColumnIndex(COLUMN_USERS_CONTACT_NUMBER))));
+                users.add(user);
+            } while (c.moveToNext());
+        }
+        return users;
+    }
 
   public long updateUser(User user){
 

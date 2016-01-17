@@ -9,6 +9,10 @@ public class User {
   private String userName;
   private int load;
 
+  private int age;
+  private long bday;
+  private String bloodType, allergies, medCond, contactPerson, contactNum;
+
   private UserStatus status;
 
   public enum UserStatus{
@@ -26,14 +30,36 @@ public class User {
   }
 
 
-  public User(String userId, String userName, int load){
+ /* public User(String userId, String userName, int load){
     this.userId = userId;
     this.userName = userName;
     this.load = load;
 
     this.status = UserStatus.OUTSIDE;
 
+  }*/
+
+  public User(String userId, String userName, int load
+          , int age, long bday
+          , String bloodType, String allergies, String medCond
+          , String contactPerson, String contactNum){
+    this.userId = userId;
+    this.userName = userName;
+    this.load = load;
+
+    this.status = UserStatus.OUTSIDE;
+
+    this.bloodType = bloodType;
+    this.allergies = allergies;
+    this.age = age;
+    this.bday = bday;
+    this.medCond = medCond;
+    this.contactPerson = contactPerson;
+    this.contactNum = contactNum;
+
   }
+
+
 
   public UserStatus getStatus() {
     return status;
@@ -65,5 +91,61 @@ public class User {
 
   public void setLoad(int load) {
     this.load = load;
+  }
+
+  public int getAge() {
+    return age;
+  }
+
+  public void setAge(int age) {
+    this.age = age;
+  }
+
+  public long getBday() {
+    return bday;
+  }
+
+  public void setBday(long bday) {
+    this.bday = bday;
+  }
+
+  public String getBloodType() {
+    return bloodType;
+  }
+
+  public void setBloodType(String bloodType) {
+    this.bloodType = bloodType;
+  }
+
+  public String getAllergies() {
+    return allergies;
+  }
+
+  public void setAllergies(String allergies) {
+    this.allergies = allergies;
+  }
+
+  public String getMedCond() {
+    return medCond;
+  }
+
+  public void setMedCond(String medCond) {
+    this.medCond = medCond;
+  }
+
+  public String getContactPerson() {
+    return contactPerson;
+  }
+
+  public void setContactPerson(String contactPerson) {
+    this.contactPerson = contactPerson;
+  }
+
+  public String getContactNum() {
+    return contactNum;
+  }
+
+  public void setContactNum(String contactNum) {
+    this.contactNum = contactNum;
   }
 }

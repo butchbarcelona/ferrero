@@ -22,14 +22,15 @@ public class LogsFragment extends Fragment {
     ListView lvLogs;
     LogListAdapter adapter;
 
+
     public LogsFragment(){
-        //logs = new ArrayList<LogData>();
+        //users = new ArrayList<LogData>();
 
         adapter = new LogListAdapter(new ArrayList<LogData>());
     }
 
     public void setData(ArrayList<LogData> logs){
-        //this.logs = logs;
+        //this.users = users;
         if(adapter != null) {
             adapter.setData(logs);
             adapter.notifyDataSetChanged();
@@ -53,6 +54,7 @@ public class LogsFragment extends Fragment {
         ArrayList<LogData> logs;
         public LogListAdapter(ArrayList<LogData> logs){
             this.logs = logs;
+
         }
 
         public void setData(ArrayList<LogData> logs){
@@ -80,35 +82,43 @@ public class LogsFragment extends Fragment {
 
             View view = LogsFragment.this.getActivity().getLayoutInflater().inflate(R.layout.listitem_log, null);
 
-            TextView tvTimeIn, tvTimeOut, tvStart, tvEnd;
+            TextView tvTimeIn, tvTimeOut, tvStart, tvEnd, tvName;
             tvTimeIn = (TextView) view.findViewById(R.id.tvTimeIn);
             tvTimeOut = (TextView) view.findViewById(R.id.tvTimeOut);
             tvStart = (TextView) view.findViewById(R.id.tvStationStart);
+            tvName = (TextView) view.findViewById(R.id.tvName);
+            tvName.setText(logs.get(position).getUserName());
+
             tvEnd = (TextView) view.findViewById(R.id.tvStationEnd);
 
             LinearLayout llStart = (LinearLayout) view.findViewById(R.id.ll_in);
             LinearLayout llEnd = (LinearLayout) view.findViewById(R.id.ll_out);
 
+            View lineView = (View) view.findViewById(R.id.line_view);
+
+
             if(logs.get(position).getStationEnd() == null || logs.get(position).getStationEnd().isEmpty()){
 
                 tvEnd.setText("");
                 tvTimeOut.setText("--:--:--");
+                lineView.setBackgroundResource(R.drawable.red_line_dotted);
             } else {
 
+                lineView.setBackgroundColor(getResources().getColor(R.color.blue_dark));
                 llStart.setBackgroundResource(R.drawable.blue_circle);
                 llEnd.setBackgroundResource(R.drawable.blue_circle);
                 tvEnd.setText(logs.get(position).getStationEnd()+"");
-                tvTimeOut.setText(Util.epochToStringFormat(logs.get(position).getTimeOut(),"hh:mm"));
+                tvTimeOut.setText(Util.epochToStringFormat(logs.get(position).getTimeOut(),"HH:mm"));
 
                 TextView tvDuration = (TextView) view.findViewById(R.id.tvDuration);
                 TextView tvFare = (TextView) view.findViewById(R.id.tvFare);
 
-                tvDuration.setText(Util.epochToStringFormat(logs.get(position).getDuration(),"hh:mm "));
+                tvDuration.setText(Util.getStringDuration(logs.get(position).getDuration()));
                 tvFare.setText("P"+logs.get(position).getFare());
             }
 
             tvStart.setText(logs.get(position).getStationStart()+"");
-            tvTimeIn.setText(Util.epochToStringFormat(logs.get(position).getTimeIn(),"hh:mm"));
+            tvTimeIn.setText(Util.epochToStringFormat(logs.get(position).getTimeIn(),"HH:mm"));
 
             return view;
         }
