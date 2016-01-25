@@ -115,10 +115,12 @@ public class MainNavActivity extends BlunoLibrary
 
         switch (position){
             case 1: fragToAdd = userFragment;
+                if(btnScan != null)
                 btnScan.setVisibility(View.GONE);
                 break;
             case 0:
             default: fragToAdd = logsFragment;
+                if(btnScan != null)
                 btnScan.setVisibility(View.VISIBLE);
                 break;
         }

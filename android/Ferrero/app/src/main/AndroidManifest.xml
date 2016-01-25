@@ -26,15 +26,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".AddUserActivity"
+            android:label="@string/title_activity_add_user"
+            android:parentActivityName=".MainNavActivity">
+        </activity>
         <service
             android:name=".ble.BluetoothLeService"
             android:enabled="true" />
 
-        <activity
-            android:name=".AddUserActivity"
-            android:label="@string/title_activity_add_user" >
-        </activity>
     </application>
 
 </manifest>

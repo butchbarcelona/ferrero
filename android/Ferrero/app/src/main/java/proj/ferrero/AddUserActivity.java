@@ -1,14 +1,23 @@
 package proj.ferrero;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import proj.ferrero.models.User;
 
@@ -29,6 +38,29 @@ public class AddUserActivity extends AppCompatActivity {
         etName = (EditText) findViewById(R.id.et_name);
         etTag = (EditText) findViewById(R.id.et_tag);
         etBday = (EditText) findViewById(R.id.et_bday);
+      etBday.setInputType(InputType.TYPE_NULL);
+      etBday.setFocusableInTouchMode(false);
+      etBday.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+          Calendar newCalendar = Calendar.getInstance();
+          DatePickerDialog datePickerDialog = new DatePickerDialog(
+            AddUserActivity.this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear
+              , int dayOfMonth) {
+              Calendar newDate = Calendar.getInstance();
+              newDate.set(year, monthOfYear, dayOfMonth);
+              SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+              etBday.setText(formatter.format(newDate.getTime()));
+            }
+
+          }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH)
+            , newCalendar.get(Calendar.DAY_OF_MONTH));
+
+          datePickerDialog.show();
+        }
+      });
         etAge = (EditText) findViewById(R.id.et_age);
         etBlood = (EditText) findViewById(R.id.et_bloodtype);
         etAllergy = (EditText) findViewById(R.id.et_allergies);
@@ -65,18 +97,34 @@ public class AddUserActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      // Respond to the action bar's Up/Home button
+      case android.R.id.home:
+        NavUtils.navigateUpFromSameTask(this);
+        return true;
     }
+    return super.onOptionsItemSelected(item);
+  }
+
+  public static class DatePickerFragment extends DialogFragment
+    implements DatePickerDialog.OnDateSetListener {
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+      // Use the current date as the default date in the picker
+      final Calendar c = Calendar.getInstance();
+      int year = c.get(Calendar.YEAR);
+      int month = c.get(Calendar.MONTH);
+      int day = c.get(Calendar.DAY_OF_MONTH);
+
+      // Create a new instance of DatePickerDialog and return it
+      return new DatePickerDialog(getActivity(), this, year, month, day);
+    }
+
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+      // Do something with the date chosen by the user
+    }
+  }
 }

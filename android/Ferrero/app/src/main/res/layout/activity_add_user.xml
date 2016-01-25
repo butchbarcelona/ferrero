@@ -15,34 +15,42 @@
             android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Name"/>
+            android:hint="Name"
+            android:singleLine="true"/>
         <EditText
             android:id="@+id/et_tag"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="NFC Tag"/>
+            android:hint="NFC Tag"
+            android:singleLine="true"/>
         <EditText
             android:id="@+id/et_age"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="number"
-            android:hint="Age"/>
+            android:hint="Age"
+            android:singleLine="true"/>
+
+
         <EditText
             android:id="@+id/et_bday"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="date"
-            android:hint="Birthday"/>
+            android:hint="Birthday"
+            android:singleLine="true"/>
         <EditText
             android:id="@+id/et_bloodtype"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Bloodtype"/>
+            android:hint="Bloodtype"
+            android:singleLine="true"/>
         <EditText
             android:id="@+id/et_allergies"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Allergies"/>
+            android:hint="Allergies"
+            android:singleLine="true"/>
         <EditText
             android:id="@+id/et_med_conditions"
             android:layout_width="match_parent"
@@ -52,12 +60,14 @@
             android:id="@+id/et_contact_person"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Contact Person"/>
+            android:hint="Contact Person"
+            android:singleLine="true"/>
         <EditText
             android:id="@+id/et_contact_number"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Contact Number"/>
+            android:hint="Contact Number"
+            android:singleLine="true"/>
     </LinearLayout>
 
     <Button

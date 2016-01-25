@@ -57,6 +57,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     + COLUMN_LOGS_DURATION + " long ,"
     + COLUMN_LOGS_FARE + " int); ";
 
+
   private static final String DATABASE_CREATE_USERS = "create table "
     + TABLE_USERS + "(" + COLUMN_USERS_ID
     + " text primary key, "
