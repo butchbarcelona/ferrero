@@ -1,5 +1,9 @@
 package proj.ferrero;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -61,4 +65,26 @@ public class Util {
 
         return elapsedHours+" hrs "+elapsedMinutes+" mins";
     }
+    public static void showDialog(Context ctx, String message, String okButton, String cancelButton
+      , DialogInterface.OnClickListener positiveListener
+      , DialogInterface.OnClickListener negativeListener){
+        new AlertDialog.Builder(ctx)
+          .setTitle(MainNavActivity.TAG)
+          .setMessage(message)
+          .setPositiveButton(okButton, positiveListener)
+          .setNegativeButton(cancelButton, negativeListener)
+          .setIcon(android.R.drawable.ic_dialog_alert)
+          .show();
+    }
+
+    public static void showDialog(Context ctx, String message, String okButton
+      , DialogInterface.OnClickListener positiveListener ){
+        new AlertDialog.Builder(ctx)
+          .setTitle(MainNavActivity.TAG)
+          .setMessage(message)
+          .setPositiveButton(okButton, positiveListener)
+          .setIcon(android.R.drawable.ic_dialog_alert)
+          .show();
+    }
+
 }

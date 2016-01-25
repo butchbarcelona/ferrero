@@ -263,7 +263,33 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     }
     return user;
   }
+  public ArrayList<User> getAllUsersWithTag(String tag) {
+    ArrayList<User> users = new ArrayList<User>();
+    String selectQuery = "SELECT  * FROM " + TABLE_USERS + " WHERE " + COLUMN_USERS_TAG + " = '"+tag+"'";
 
+    SQLiteDatabase db = this.getReadableDatabase();
+    Cursor c = db.rawQuery(selectQuery, null);
+
+    User user;
+    // looping through all rows and adding to list
+    if (c.moveToFirst()) {
+      do {
+
+        user = new User((c.getString(c.getColumnIndex(COLUMN_USERS_TAG))),
+          (c.getString(c.getColumnIndex(COLUMN_USERS_NAME))),
+          (c.getInt(c.getColumnIndex(COLUMN_USERS_LOAD))),
+          (c.getInt(c.getColumnIndex(COLUMN_USERS_AGE))),
+          (c.getString(c.getColumnIndex(COLUMN_USERS_BDAY))),
+          (c.getString(c.getColumnIndex(COLUMN_USERS_BLOOD))),
+          (c.getString(c.getColumnIndex(COLUMN_USERS_ALLERGIES))),
+          (c.getString(c.getColumnIndex(COLUMN_USERS_MED_CONDITIONS))),
+          (c.getString(c.getColumnIndex(COLUMN_USERS_CONTACT_PERSON))),
+          (c.getString(c.getColumnIndex(COLUMN_USERS_CONTACT_NUMBER))));
+        users.add(user);
+      } while (c.moveToNext());
+    }
+    return users;
+  }
 
     public ArrayList<User> getAllUsers() {
         ArrayList<User> users = new ArrayList<User>();

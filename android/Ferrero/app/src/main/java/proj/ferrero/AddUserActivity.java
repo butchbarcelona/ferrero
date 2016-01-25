@@ -2,6 +2,7 @@ package proj.ferrero;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NavUtils;
@@ -16,7 +17,6 @@ import android.widget.EditText;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 import proj.ferrero.models.User;
@@ -74,21 +74,32 @@ public class AddUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                long bday = (new Date()).getTime();
+              String tag = etTag.getText().toString();
+                if(dbHelper.getAllUsersWithTag(tag).size() > 0){
 
+                  Util.showDialog(AddUserActivity.this, "There's a user with this NFC ID", "OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                      dialog.dismiss();
+                    }
+                  });
 
-                dbHelper.createUser(new User(etTag.getText().toString(),
-                        etName.getText().toString(),
-                        1000,
-                        Integer.parseInt(etAge.getText().toString()),
-                        etBday.getText().toString(),
-                                etBlood.getText().toString(),
-                                etAllergy.getText().toString(),
-                                etMedCond.getText().toString(),
-                                etContactPerson.getText().toString(),
-                                etContactNumber.getText().toString()));
+                }else {
 
-              finish();
+                  String strAge = etAge.getText().toString();
+                  int age = strAge.isEmpty()?0:Integer.parseInt(strAge);
+                  dbHelper.createUser(new User(tag,
+                    etName.getText().toString(),
+                    1000,age,
+                    etBday.getText().toString(),
+                    etBlood.getText().toString(),
+                    etAllergy.getText().toString(),
+                    etMedCond.getText().toString(),
+                    etContactPerson.getText().toString(),
+                    etContactNumber.getText().toString()));
+                  finish();
+
+                }
             }
         });
     }

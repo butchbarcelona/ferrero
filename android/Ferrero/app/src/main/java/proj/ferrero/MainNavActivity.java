@@ -22,7 +22,7 @@ import proj.ferrero.models.User;
 public class MainNavActivity extends BlunoLibrary
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    private static final String TAG = "FERRERO";
+    public static final String TAG = "FERRERO";
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
