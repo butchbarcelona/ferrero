@@ -30,6 +30,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
   public static final String TABLE_USERS = "users";
   public static final String COLUMN_USERS_ID = "_id";
+  public static final String COLUMN_USERS_TAG = "tag";
   public static final String COLUMN_USERS_NAME = "name";
   public static final String COLUMN_USERS_LOAD = "load";
   public static final String COLUMN_USERS_STATUS = "status";
@@ -60,11 +61,12 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
   private static final String DATABASE_CREATE_USERS = "create table "
     + TABLE_USERS + "(" + COLUMN_USERS_ID
-    + " text primary key, "
+    + " integer primary key autoincrement, "
+    + COLUMN_USERS_TAG + " text not null,"
     + COLUMN_USERS_STATUS + " text not null,"
     + COLUMN_USERS_NAME + " text not null,"
       + COLUMN_USERS_AGE + " int,"
-      + COLUMN_USERS_BDAY + " long,"
+      + COLUMN_USERS_BDAY + " text,"
       + COLUMN_USERS_BLOOD + " text,"
       + COLUMN_USERS_ALLERGIES + " text,"
       + COLUMN_USERS_MED_CONDITIONS + " text,"
@@ -219,7 +221,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     SQLiteDatabase db = this.getWritableDatabase();
 
     ContentValues values = new ContentValues();
-    values.put(COLUMN_USERS_ID, user.getUserId());
+    values.put(COLUMN_USERS_TAG, user.getUserId());
     values.put(COLUMN_USERS_NAME, user.getUserName());
     values.put(COLUMN_USERS_LOAD, user.getLoad());
     values.put(COLUMN_USERS_STATUS, user.getStatus().getString());
@@ -248,11 +250,11 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
     // looping through all rows and adding to list
     if (c.moveToFirst()) {
-      user = new User((c.getString(c.getColumnIndex(COLUMN_USERS_ID))),
+      user = new User((c.getString(c.getColumnIndex(COLUMN_USERS_TAG))),
               (c.getString(c.getColumnIndex(COLUMN_USERS_NAME))),
               (c.getInt(c.getColumnIndex(COLUMN_USERS_LOAD))),
               (c.getInt(c.getColumnIndex(COLUMN_USERS_AGE))),
-              (c.getLong(c.getColumnIndex(COLUMN_USERS_BDAY))),
+              (c.getString(c.getColumnIndex(COLUMN_USERS_BDAY))),
               (c.getString(c.getColumnIndex(COLUMN_USERS_BLOOD))),
               (c.getString(c.getColumnIndex(COLUMN_USERS_ALLERGIES))),
               (c.getString(c.getColumnIndex(COLUMN_USERS_MED_CONDITIONS))),
@@ -275,11 +277,11 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             do {
 
-                user = new User((c.getString(c.getColumnIndex(COLUMN_USERS_ID))),
+                user = new User((c.getString(c.getColumnIndex(COLUMN_USERS_TAG))),
                         (c.getString(c.getColumnIndex(COLUMN_USERS_NAME))),
                         (c.getInt(c.getColumnIndex(COLUMN_USERS_LOAD))),
                         (c.getInt(c.getColumnIndex(COLUMN_USERS_AGE))),
-                        (c.getLong(c.getColumnIndex(COLUMN_USERS_BDAY))),
+                        (c.getString(c.getColumnIndex(COLUMN_USERS_BDAY))),
                         (c.getString(c.getColumnIndex(COLUMN_USERS_BLOOD))),
                         (c.getString(c.getColumnIndex(COLUMN_USERS_ALLERGIES))),
                         (c.getString(c.getColumnIndex(COLUMN_USERS_MED_CONDITIONS))),

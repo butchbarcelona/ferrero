@@ -74,18 +74,21 @@ public class AddUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                long bday = (new Date(etBday.getText().toString())).getTime();
+                long bday = (new Date()).getTime();
+
 
                 dbHelper.createUser(new User(etTag.getText().toString(),
                         etName.getText().toString(),
                         1000,
                         Integer.parseInt(etAge.getText().toString()),
-                        bday,
+                        etBday.getText().toString(),
                                 etBlood.getText().toString(),
                                 etAllergy.getText().toString(),
                                 etMedCond.getText().toString(),
                                 etContactPerson.getText().toString(),
                                 etContactNumber.getText().toString()));
+
+              finish();
             }
         });
     }

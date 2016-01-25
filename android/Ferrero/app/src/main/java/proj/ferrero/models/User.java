@@ -9,8 +9,9 @@ public class User {
   private String userName;
   private int load;
 
+  private int id;
   private int age;
-  private long bday;
+  private String bday;
   private String bloodType, allergies, medCond, contactPerson, contactNum;
 
   private UserStatus status;
@@ -40,7 +41,7 @@ public class User {
   }*/
 
   public User(String userId, String userName, int load
-          , int age, long bday
+          , int age, String bday
           , String bloodType, String allergies, String medCond
           , String contactPerson, String contactNum){
     this.userId = userId;
@@ -101,11 +102,11 @@ public class User {
     this.age = age;
   }
 
-  public long getBday() {
+  public String getBday() {
     return bday;
   }
 
-  public void setBday(long bday) {
+  public void setBday(String bday) {
     this.bday = bday;
   }
 

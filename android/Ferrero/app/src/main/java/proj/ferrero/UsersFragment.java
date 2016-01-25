@@ -110,7 +110,7 @@ public class UsersFragment extends Fragment {
 
             tvName.setText(users.get(position).getUserName());
             tvAge.setText(users.get(position).getAge()+"");
-            tvBday.setText(Util.epochToStringFormat(users.get(position).getBday(), "MM-dd-yyyy"));
+            tvBday.setText(users.get(position).getBday());
             tvBlood.setText(users.get(position).getBloodType());
             tvAllergies.setText(users.get(position).getAllergies());
             tvMedCond.setText(users.get(position).getMedCond());
