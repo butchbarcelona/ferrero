@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+    <ImageButton
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:background="@android:color/transparent"
+        android:id="@+id/btn_delete"
+        android:layout_margin="5dp"
+        />
+
+
+<LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:padding="20dp" >
+    android:layout_height="match_parent" android:padding="20dp"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentStart="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp">
+        android:orientation="horizontal" >
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,23 +50,27 @@
         android:textSize="20dp"
         android:id="@+id/tvName" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp"
             android:layout_weight="0.8">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/tvAge" />
-
-            <TextView
-                android:layout_width="wrap_content"
+                android:text="P"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:paddingRight="5dp"/>
+            <EditText
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/tvBday" />
+                android:text="0000"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:id="@+id/tv_load" />
         </LinearLayout>
     </LinearLayout>
 
@@ -60,8 +80,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:orientation="horizontal">
-
 
         <LinearLayout
             android:layout_width="0dp"
@@ -71,7 +92,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Allergies"
+                android:text="Age"
                 android:textStyle="bold"
                 android:paddingTop="10dp"
                 android:textSize="16dp"  />
@@ -79,8 +100,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
-                android:id="@+id/tvAllergies" />
+                android:id="@+id/tvAge" />
             </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bday"
+                android:textStyle="bold"
+                android:paddingTop="10dp"
+                android:textSize="16dp"  />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/tvBday" />
+        </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -101,6 +144,34 @@
         </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Allergies"
+                android:textStyle="bold"
+                android:paddingTop="10dp"
+                android:textSize="16dp"  />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/tvAllergies" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -113,8 +184,15 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/tvMedicalConditions" />
+</LinearLayout>
 
-
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -140,4 +218,7 @@
             android:paddingLeft="10dp"
             android:id="@+id/tvContactNumber" />
     </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>
+</RelativeLayout>

@@ -1,12 +1,17 @@
 package proj.ferrero;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -56,6 +61,7 @@ public class UsersFragment extends Fragment {
         });
 
 
+        dbHelper = new SqlDatabaseHelper(this.getActivity().getApplicationContext());
         return rootView;
     }
 
@@ -93,7 +99,7 @@ public class UsersFragment extends Fragment {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
 
             View view = UsersFragment.this.getActivity().getLayoutInflater().inflate(R.layout.listitem_user, null);
 
@@ -108,6 +114,8 @@ public class UsersFragment extends Fragment {
             tvContactNum = (TextView)view.findViewById(R.id.tvContactNumber);
             tvTag = (TextView)view.findViewById(R.id.tvTag);
 
+            final EditText etLoad = (EditText)view.findViewById(R.id.tv_load);
+
             tvName.setText(users.get(position).getUserName());
             tvAge.setText(users.get(position).getAge()+"");
             tvBday.setText(users.get(position).getBday());
@@ -117,10 +125,64 @@ public class UsersFragment extends Fragment {
             tvContactPerson.setText(users.get(position).getContactPerson());
             tvContactNum.setText(users.get(position).getContactNum());
             tvTag.setText(users.get(position).getUserId());
+            etLoad.setText(users.get(position).getLoad() + "");
+
+            etLoad.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (!s.toString().isEmpty()) {
+
+                        users.get(position).setLoad(Integer.parseInt(etLoad.getText().toString()));
+                        dbHelper.updateUser(users.get(position));
+                        /*refresh();
+                        hideKeyboard();*/
+
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                }
+            });
+            /*etLoad.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (!hasFocus) {
+                        users.get(position).setLoad(Integer.parseInt(etLoad.getText().toString()));
+                        dbHelper.updateUser(users.get(position));
+                        refresh();
+                    }
+                }
+            });*/
+
+            ImageButton btnDelete = (ImageButton) view.findViewById(R.id.btn_delete);
+            btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dbHelper.deleteUser(users.get(position));
+                    refresh();
+                }
+            });
 
 
             return view;
         }
     }
 
+    public void refresh(){
+        adapter.setData(dbHelper.getAllUsers());
+        adapter.notifyDataSetChanged();
+    }
+
+    private void hideKeyboard(){
+        View view = this.getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)this.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 }

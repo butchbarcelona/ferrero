@@ -325,10 +325,19 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
     ContentValues values = new ContentValues();
     values.put(COLUMN_USERS_LOAD, user.getLoad());
-    values.put(COLUMN_USERS_STATUS, user.getStatus().getString());
 
     // updating row
-    return db.update(TABLE_USERS, values, COLUMN_USERS_ID + " = ?",
+    return db.update(TABLE_USERS, values, COLUMN_USERS_TAG + " = ?",
             new String[] { String.valueOf(user.getUserId()) });
+  }
+
+  public long deleteUser(User user){
+    String selectQuery = "DELETE FROM " + TABLE_USERS
+      + " WHERE " + COLUMN_USERS_TAG + " = '" + user.getUserId()+"'";
+
+    SQLiteDatabase db = this.getReadableDatabase();
+    Cursor c = db.rawQuery(selectQuery, null);
+
+    return 0;
   }
 }
