@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,44 +125,51 @@ public class UsersFragment extends Fragment {
             tvTag.setText(users.get(position).getUserId());
             etLoad.setText(users.get(position).getLoad() + "");
 
-            etLoad.addTextChangedListener(new TextWatcher() {
+            /*etLoad.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 }
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    if (!s.toString().isEmpty()) {
 
-                        users.get(position).setLoad(Integer.parseInt(etLoad.getText().toString()));
-                        dbHelper.updateUser(users.get(position));
-                        /*refresh();
-                        hideKeyboard();*/
-
-                    }
                 }
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                }
-            });
-            /*etLoad.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if (!hasFocus) {
-                        users.get(position).setLoad(Integer.parseInt(etLoad.getText().toString()));
-                        dbHelper.updateUser(users.get(position));
+                    int load = 0;
+                    if (!s.toString().isEmpty()) {
+                        load = Integer.parseInt(etLoad.getText().toString());
+                        users.get(position).setLoad(load);
+                        //dbHelper.updateUser(users.get(position));
+                        ((MainNavActivity) UsersFragment.this.getActivity()).updateUser(users.get(position));
                         refresh();
+                        *//*
+                        hideKeyboard();*//*
+
                     }
                 }
             });*/
+            etLoad.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (!hasFocus) {
+                        int load = Integer.parseInt(etLoad.getText().toString());
+                        users.get(position).setLoad(load);
+                        //dbHelper.updateUser(users.get(position));
+                        ((MainNavActivity) UsersFragment.this.getActivity()).updateUser(users.get(position));
+                        refresh();
+                    }
+                }
+            });
 
             ImageButton btnDelete = (ImageButton) view.findViewById(R.id.btn_delete);
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    dbHelper.deleteUser(users.get(position));
-                    refresh();
+                    ((MainNavActivity)UsersFragment.this.getActivity()).deleteUser(users.get(position));
+                    //dbHelper.deleteUser(users.get(position));
+                    //refresh();
                 }
             });
 

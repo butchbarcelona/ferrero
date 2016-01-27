@@ -88,7 +88,7 @@ public class AddUserActivity extends AppCompatActivity {
 
                   String strAge = etAge.getText().toString();
                   int age = strAge.isEmpty()?0:Integer.parseInt(strAge);
-                  dbHelper.createUser(new User(tag,
+                  dbHelper.createUser(new User(-1,tag,
                     etName.getText().toString(),
                     1000,age,
                     etBday.getText().toString(),
@@ -97,6 +97,7 @@ public class AddUserActivity extends AppCompatActivity {
                     etMedCond.getText().toString(),
                     etContactPerson.getText().toString(),
                     etContactNumber.getText().toString()));
+
                   finish();
 
                 }

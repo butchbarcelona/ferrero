@@ -76,9 +76,9 @@ public class MainNavActivity extends BlunoLibrary
         users.add(new LogData(2,"EFAWF12312", 1452918693, "Station A", 1452918693, "Station B",12323,30));
         users.add(new LogData(2,"C4R0L78541", 1452918693, "Station A", 1452918693, "Station B",12323,30));*/
 
-        users = new ArrayList<User>();
-        users.add(new User("EFAWF12312","Tons",1000,1,"","","","","",""));
-        users.add(new User("C4R0L78541","York",1000,1,"","","","","",""));
+/*        users = new ArrayList<User>();
+        users.add(new User(-1,"EFAWF12312","Tons",1000,1,"","","","","",""));
+        users.add(new User(-1,"C4R0L78541","York",1000,1,"","","","","",""));*/
 
 
         //add temp data to db
@@ -86,9 +86,11 @@ public class MainNavActivity extends BlunoLibrary
             dbHelper.createLog(log);
         }
 */
+/*
         for(User user: users){
             dbHelper.createUser(user);
         }
+*/
 
 
         refreshData();
@@ -139,6 +141,19 @@ public class MainNavActivity extends BlunoLibrary
         actionBar.setTitle(mTitle);
     }
 
+
+    public void deleteUser(User user){
+        dbHelper.deleteUser(user);
+
+
+
+        refreshData();
+    }
+
+    public void updateUser(User user){
+        dbHelper.updateUser(user);
+        refreshData();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -293,6 +308,7 @@ public class MainNavActivity extends BlunoLibrary
         super.onResume();
         System.out.println("BlUNOActivity onResume");
         onResumeProcess();														//onResume Process by BlunoLibrary
+        refreshData();
     }
 
     @Override

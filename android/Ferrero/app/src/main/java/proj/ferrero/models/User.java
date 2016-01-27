@@ -40,10 +40,12 @@ public class User {
 
   }*/
 
-  public User(String userId, String userName, int load
+  public User(int id, String userId, String userName, int load
           , int age, String bday
           , String bloodType, String allergies, String medCond
           , String contactPerson, String contactNum){
+    this.id = id;
+
     this.userId = userId;
     this.userName = userName;
     this.load = load;
@@ -60,7 +62,13 @@ public class User {
 
   }
 
+  public int getId() {
+    return id;
+  }
 
+  public void setId(int id) {
+    this.id = id;
+  }
 
   public UserStatus getStatus() {
     return status;

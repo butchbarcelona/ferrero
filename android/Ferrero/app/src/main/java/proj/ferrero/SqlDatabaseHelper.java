@@ -237,6 +237,8 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     long user_id = db.insert(TABLE_USERS, null, values);
 
 
+
+
     return user_id;
   }
 
@@ -250,7 +252,9 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
     // looping through all rows and adding to list
     if (c.moveToFirst()) {
-      user = new User((c.getString(c.getColumnIndex(COLUMN_USERS_TAG))),
+      user = new User(
+        (c.getInt(c.getColumnIndex(COLUMN_USERS_ID))),
+        (c.getString(c.getColumnIndex(COLUMN_USERS_TAG))),
               (c.getString(c.getColumnIndex(COLUMN_USERS_NAME))),
               (c.getInt(c.getColumnIndex(COLUMN_USERS_LOAD))),
               (c.getInt(c.getColumnIndex(COLUMN_USERS_AGE))),
@@ -275,7 +279,9 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     if (c.moveToFirst()) {
       do {
 
-        user = new User((c.getString(c.getColumnIndex(COLUMN_USERS_TAG))),
+        user = new User(
+          (c.getInt(c.getColumnIndex(COLUMN_USERS_ID))),
+          (c.getString(c.getColumnIndex(COLUMN_USERS_TAG))),
           (c.getString(c.getColumnIndex(COLUMN_USERS_NAME))),
           (c.getInt(c.getColumnIndex(COLUMN_USERS_LOAD))),
           (c.getInt(c.getColumnIndex(COLUMN_USERS_AGE))),
@@ -303,7 +309,9 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             do {
 
-                user = new User((c.getString(c.getColumnIndex(COLUMN_USERS_TAG))),
+              user = new User(
+                  (c.getInt(c.getColumnIndex(COLUMN_USERS_ID))),
+                        (c.getString(c.getColumnIndex(COLUMN_USERS_TAG))),
                         (c.getString(c.getColumnIndex(COLUMN_USERS_NAME))),
                         (c.getInt(c.getColumnIndex(COLUMN_USERS_LOAD))),
                         (c.getInt(c.getColumnIndex(COLUMN_USERS_AGE))),
@@ -327,17 +335,23 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     values.put(COLUMN_USERS_LOAD, user.getLoad());
 
     // updating row
-    return db.update(TABLE_USERS, values, COLUMN_USERS_TAG + " = ?",
-            new String[] { String.valueOf(user.getUserId()) });
+    return db.update(TABLE_USERS, values, COLUMN_USERS_ID + " = ?",
+            new String[] { String.valueOf(user.getId()) });
   }
 
-  public long deleteUser(User user){
+  public boolean deleteUser(User user){
+/*
     String selectQuery = "DELETE FROM " + TABLE_USERS
-      + " WHERE " + COLUMN_USERS_TAG + " = '" + user.getUserId()+"'";
+      + " WHERE " + COLUMN_USERS_ID + " = " + user.getId()+"";
 
     SQLiteDatabase db = this.getReadableDatabase();
     Cursor c = db.rawQuery(selectQuery, null);
-
     return 0;
+*/
+
+
+    SQLiteDatabase db = this.getReadableDatabase();
+    return db.delete(TABLE_USERS, COLUMN_USERS_ID + "=" + user.getId(), null) > 0;
+
   }
 }
