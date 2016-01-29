@@ -25,7 +25,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText"
+            android:id="@+id/et_tag"
             android:layout_alignTop="@+id/btn_tap"
             android:layout_alignRight="@+id/btn_tap"
             android:layout_alignEnd="@+id/btn_tap"/>

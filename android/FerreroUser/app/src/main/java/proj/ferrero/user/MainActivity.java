@@ -12,16 +12,19 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
 
   private NfcAdapter nfcAdapter;
 
   public static String tag = "";
 
-
+  public ImageButton btnTap;
+  public EditText etTag;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +52,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    btnTap = (ImageButton) findViewById(R.id.btn_tap);
+    btnTap.setOnClickListener(this);
 
-
+    etTag = (EditText) findViewById(R.id.et_tag);
 
   }
 
@@ -113,6 +118,23 @@ public class MainActivity extends AppCompatActivity {
 
         }, this, this);
       }
+    }
+  }
+
+  @Override
+  public void onClick(View v) {
+    switch(v.getId()){
+      case R.id.btn_tap:
+
+
+        String id = etTag.getText().toString();
+
+        if(id.isEmpty() || id.trim().isEmpty()){
+          id = "temp_id";
+        }
+
+        sendFile(v,id);
+        break;
     }
   }
 }
