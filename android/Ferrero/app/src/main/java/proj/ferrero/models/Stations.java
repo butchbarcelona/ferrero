@@ -30,9 +30,9 @@ public enum Stations {
             case "A":case "Station A":case "a":
                 return Stations.A;
             case "B":case "Station B":case "b":
-                return Stations.A;
+                return Stations.B;
             case "C":case "Station C":case "c":
-                return Stations.A;
+                return Stations.C;
 
         }
 

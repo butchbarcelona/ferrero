@@ -8,9 +8,10 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
   private NfcAdapter nfcAdapter;
 
-  public static String tag = "";
+  public static String tag = "NFC User";
 
   public ImageButton btnTap;
   public EditText etTag;
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             nfcAdapter.setBeamPushUris(new Uri[]{Uri.fromFile(fileToTransfer)}, this.getActivity());*/
 
+        Log.d(tag,"preparing to send message: "+message);
         NfcAdapter nfc = NfcAdapter.getDefaultAdapter(this);
         nfc.setNdefPushMessageCallback(new NfcAdapter.CreateNdefMessageCallback() {
           /*
@@ -104,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
           @Override
           public NdefMessage createNdefMessage(NfcEvent event) {
 
+            Log.d(tag,"sending message: "+message);
          /*   String temp = "C4R0L78541";*/
 
                         /*Toast.makeText(NFCItemFragment.this.getActivity(), "Please enable NFC.", Toast.LENGTH_SHORT).show();

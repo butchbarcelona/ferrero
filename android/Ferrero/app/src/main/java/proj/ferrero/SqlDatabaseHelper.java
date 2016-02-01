@@ -107,6 +107,8 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     values.put(COLUMN_LOGS_DURATION, log.getDuration());
     values.put(COLUMN_LOGS_FARE, log.getFare());
 
+    Log.d(MainNavActivity.TAG, "creating log for user: " + log.getUserId());
+
     // insert row
     long todo_id = db.insert(TABLE_LOGS, null, values);
 
@@ -245,7 +247,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
   public User getUser(String userId) {
     User user = null;
     String selectQuery = "SELECT  * FROM " + TABLE_USERS
-            + " WHERE " + COLUMN_USERS_ID + " = '" + userId+"'";
+            + " WHERE " + COLUMN_USERS_TAG + " = '" + userId+"'";
 
     SQLiteDatabase db = this.getReadableDatabase();
     Cursor c = db.rawQuery(selectQuery, null);
