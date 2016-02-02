@@ -157,9 +157,13 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
           ,(c.getInt(c.getColumnIndex(COLUMN_LOGS_FARE))));
 
 
-          td.setUserName(getUser(td.getUserId()).getUserName());
 
-        logs.add(td);
+          User user = getUser(td.getUserId());
+
+          if(user != null) {
+            td.setUserName(user.getUserName());
+            logs.add(td);
+          }
       } while (c.moveToNext());
     }
     return logs;
@@ -354,6 +358,22 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
     SQLiteDatabase db = this.getReadableDatabase();
     return db.delete(TABLE_USERS, COLUMN_USERS_ID + "=" + user.getId(), null) > 0;
+
+  }
+
+  public boolean deleteLogsOfUser(User user){
+/*
+    String selectQuery = "DELETE FROM " + TABLE_USERS
+      + " WHERE " + COLUMN_USERS_ID + " = " + user.getId()+"";
+
+    SQLiteDatabase db = this.getReadableDatabase();
+    Cursor c = db.rawQuery(selectQuery, null);
+    return 0;
+*/
+
+
+    SQLiteDatabase db = this.getReadableDatabase();
+    return db.delete(TABLE_LOGS, COLUMN_LOGS_USER + "=" + user.getId(), null) > 0;
 
   }
 }

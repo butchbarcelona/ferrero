@@ -2,6 +2,7 @@ package proj.ferrero;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -12,6 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import proj.ferrero.ble.BlunoLibrary;
@@ -143,6 +148,7 @@ public class MainNavActivity extends BlunoLibrary
 
 
     public void deleteUser(User user){
+        dbHelper.deleteLogsOfUser(user);
         dbHelper.deleteUser(user);
 
 
@@ -176,12 +182,14 @@ public class MainNavActivity extends BlunoLibrary
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_save_text) {
+            saveDataToTextFile();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void onConectionStateChange(BlunoLibrary.connectionStateEnum theConnectionState) {//Once connection state changes, this function will be called
@@ -330,6 +338,97 @@ public class MainNavActivity extends BlunoLibrary
         }
     }
 
+    private void saveDataToTextFile() {
+
+        StringBuilder strBuilderLogs = new StringBuilder();
+
+        strBuilderLogs.append("id\t")
+          .append("User \t\t\t")
+          .append("Station Start \t")
+          .append("Station End  \t")
+          .append("Time In \t")
+          .append("Time Out  \t")
+          .append("Duration \t")
+          .append("Fare \t")
+          .append("\n");
+
+
+        for(LogData log: logs){
+            strBuilderLogs.append(log.getId() + "\t")
+              .append(log.getUserName() + "\t")
+              .append(log.getStationStart()+"\t")
+              .append(log.getStationEnd()+"\t")
+              .append(log.getTimeIn()+"\t")
+              .append(log.getTimeOut()+"\t")
+              .append(log.getDuration()+"\t")
+              .append(log.getFare()+"\t")
+              .append("\n");
+        }
+
+        writeToFile(strBuilderLogs.toString(),"logs.txt");
+
+
+        /*
+        *
+        *   private String userId;
+  private String userName;
+  private int load;
+
+  private int id;
+  private int age;
+  private String bday;
+  private String bloodType, allergies, medCond, contactPerson, contactNum;
+        * */
+
+        StringBuilder strBuilderUser = new StringBuilder();
+
+        strBuilderUser.append("id\t")
+          .append("Tag \t\t\t")
+          .append("Name \t")
+          .append("Age  \t")
+          .append("Blood Type \t")
+          .append("Birthday  \t")
+          .append("Allergies\t")
+          .append("Medical Condition\t")
+          .append("Contact Person\t")
+          .append("Contact Number \t")
+          .append("\n");
+
+
+        for(User user: users){
+            strBuilderUser.append(user.getId()+"\t")
+              .append(user.getUserId()+"\t")
+              .append(user.getUserName()+"\t")
+              .append(user.getAge()+"\t")
+              .append(user.getBloodType()+"\t")
+              .append(user.getBday()+"\t")
+              .append(user.getAllergies()+"\t")
+              .append(user.getMedCond()+"\t")
+              .append(user.getContactPerson()+"\t")
+              .append(user.getContactNum()+"\t")
+              .append("\n");
+        }
+
+        writeToFile(strBuilderLogs.toString(),"users.txt");
+
+    }
+    private void writeToFile(String data, String fileName) {
+        try {
+
+          File sdCard = Environment.getExternalStorageDirectory();
+          File dir = new File (sdCard.getAbsolutePath() + "/dir");
+
+          File file = new File(dir, fileName);
+
+          FileOutputStream f = new FileOutputStream(file);
+            OutputStreamWriter outputStreamWriter =new OutputStreamWriter(f); //new OutputStreamWriter(this.openFileOutput(fileName, Context.MODE_PRIVATE));
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
 
 
 }

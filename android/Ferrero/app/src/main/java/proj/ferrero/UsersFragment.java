@@ -1,6 +1,8 @@
 package proj.ferrero;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -167,9 +169,20 @@ public class UsersFragment extends Fragment {
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((MainNavActivity)UsersFragment.this.getActivity()).deleteUser(users.get(position));
-                    //dbHelper.deleteUser(users.get(position));
-                    //refresh();
+                    showDialog(UsersFragment.this.getActivity(), "Do you really want to delete " + users.get(position).getUserName() + "?", "Yes", "Cancel",
+                      new DialogInterface.OnClickListener() {
+                          @Override
+                          public void onClick(DialogInterface dialog, int which) {
+                              ((MainNavActivity) UsersFragment.this.getActivity()).deleteUser(users.get(position));
+                              //dbHelper.deleteUser(users.get(position));
+                              //refresh();
+                          }
+                      }, new DialogInterface.OnClickListener() {
+                          @Override
+                          public void onClick(DialogInterface dialog, int which) {
+
+                          }
+                      });
                 }
             });
 
@@ -178,6 +191,18 @@ public class UsersFragment extends Fragment {
         }
     }
 
+
+    public void showDialog(Context ctx, String message, String okButton, String cancelButton
+      , DialogInterface.OnClickListener positiveListener
+      , DialogInterface.OnClickListener negativeListener){
+        new AlertDialog.Builder(ctx)
+          .setTitle(MainNavActivity.TAG)
+          .setMessage(message)
+          .setPositiveButton(okButton, positiveListener)
+          .setNegativeButton(cancelButton, negativeListener)
+          .setIcon(android.R.drawable.ic_dialog_alert)
+          .show();
+    }
     public void refresh(){
         adapter.setData(dbHelper.getAllUsers());
         adapter.notifyDataSetChanged();
