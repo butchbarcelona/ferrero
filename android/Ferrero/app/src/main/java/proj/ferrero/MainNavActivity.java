@@ -409,7 +409,7 @@ public class MainNavActivity extends BlunoLibrary
               .append("\n");
         }
 
-        writeToFile(strBuilderLogs.toString(),"users.txt");
+        writeToFile(strBuilderUser.toString(),"users.txt");
 
     }
     private void writeToFile(String data, String fileName) {
@@ -417,7 +417,9 @@ public class MainNavActivity extends BlunoLibrary
 
           File sdCard = Environment.getExternalStorageDirectory();
           File dir = new File (sdCard.getAbsolutePath() + "/dir");
-
+          if(!dir.exists()){
+            dir.mkdir();
+          }
           File file = new File(dir, fileName);
 
           FileOutputStream f = new FileOutputStream(file);
