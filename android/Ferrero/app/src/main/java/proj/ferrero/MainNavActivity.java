@@ -279,6 +279,7 @@ public class MainNavActivity extends BlunoLibrary
                 //entrance state
 
                 if (user.getLoad() < 30) {
+                    serialSend(tappedAt);
                     return false;
                 }
 
