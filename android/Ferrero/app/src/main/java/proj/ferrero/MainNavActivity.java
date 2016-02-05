@@ -279,8 +279,10 @@ public class MainNavActivity extends BlunoLibrary
                 //entrance state
 
                 if (user.getLoad() < 30) {
-                    serialSend(tappedAt);
+                    serialSend("B");
                     return false;
+                }else{
+                  serialSend("A");
                 }
 
                 Log.e(MainNavActivity.TAG,"enter: "+System.currentTimeMillis());
