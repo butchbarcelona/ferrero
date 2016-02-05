@@ -1,8 +1,5 @@
 package proj.ferrero.models;
 
-/**
- * Created by mbarcelona on 1/14/16.
- */
 public class User {
 
   private String userId;

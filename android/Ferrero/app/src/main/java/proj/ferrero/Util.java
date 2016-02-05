@@ -9,9 +9,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-/**
- * Created by tonnyquintos on 1/16/16.
- */
 public class Util {
 
     public static String epochToStringFormat(long epochSeconds, String formatString){

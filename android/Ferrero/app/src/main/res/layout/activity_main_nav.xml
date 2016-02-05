@@ -14,18 +14,20 @@
 
 
     <ImageButton
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:text="CONNECT"
         android:background="@drawable/btn_fab_gray"
         android:id="@+id/connect"
-        android:layout_gravity="right|bottom"
+        android:scaleType="fitXY"
+
+        android:layout_gravity="right|top"
         android:layout_alignParentTop="false"
         android:layout_alignParentStart="false"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"
+        android:layout_margin="8dp"
+        android:padding="10dp"
         android:src="@drawable/ic_bluetooth_connected_white"
         android:baselineAlignBottom="true"
         android:contextClickable="true" />

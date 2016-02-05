@@ -1,8 +1,5 @@
 package proj.ferrero.models;
 
-/**
- * Created by tonnyquintos on 1/16/16.
- */
 public enum Stations {
 
     A("Station A", 1),

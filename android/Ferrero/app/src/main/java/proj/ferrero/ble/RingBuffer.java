@@ -1,8 +1,5 @@
 package proj.ferrero.ble;
 
-/**
- * Created by tonnyquintos on 1/15/16.
- */
 
 @SuppressWarnings("unchecked")
 public class RingBuffer<T> {

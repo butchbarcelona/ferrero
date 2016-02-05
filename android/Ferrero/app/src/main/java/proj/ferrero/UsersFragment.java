@@ -20,9 +20,6 @@ import java.util.ArrayList;
 
 import proj.ferrero.models.User;
 
-/**
- * Created by tonnyquintos on 1/16/16.
- */
 public class UsersFragment extends Fragment {
 
     ListView lvUsers;

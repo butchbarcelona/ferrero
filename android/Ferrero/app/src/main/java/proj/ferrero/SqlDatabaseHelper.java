@@ -11,10 +11,6 @@ import java.util.ArrayList;
 
 import proj.ferrero.models.LogData;
 import proj.ferrero.models.User;
-
-/**
- * Created by mbarcelona on 1/14/16.
- */
 public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
   public static final String TABLE_LOGS = "logs";

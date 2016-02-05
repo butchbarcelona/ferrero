@@ -279,10 +279,12 @@ public class MainNavActivity extends BlunoLibrary
                 //entrance state
 
                 if (user.getLoad() < 30) {
+                    Log.d(MainNavActivity.TAG,"sending B failed entrance");
                     serialSend("B");
                     return false;
                 }else{
-                  serialSend("A");
+                    Log.d(MainNavActivity.TAG,"sending A successful entry");
+                    serialSend("A");
                 }
 
                 Log.e(MainNavActivity.TAG,"enter: "+System.currentTimeMillis());

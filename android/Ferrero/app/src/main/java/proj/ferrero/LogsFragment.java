@@ -13,10 +13,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import proj.ferrero.models.LogData;
-
-/**
- * Created by tonnyquintos on 1/16/16.
- */
 public class LogsFragment extends Fragment {
 
     ListView lvLogs;
@@ -34,6 +30,7 @@ public class LogsFragment extends Fragment {
         if(adapter != null) {
             adapter.setData(logs);
             adapter.notifyDataSetChanged();
+            //lvLogs.smoothScrollToPosition(logs.size() -1);
         }
     }
 
